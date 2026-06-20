@@ -30,10 +30,14 @@ import { Route as AppMaintenanceRouteImport } from './routes/app.maintenance'
 import { Route as AppTenanciesIndexRouteImport } from './routes/app.tenancies.index'
 import { Route as AppStaffIndexRouteImport } from './routes/app.staff.index'
 import { Route as AppSettingsIndexRouteImport } from './routes/app.settings.index'
+import { Route as AppReportsIndexRouteImport } from './routes/app.reports.index'
 import { Route as AppPropertiesIndexRouteImport } from './routes/app.properties.index'
+import { Route as AppMessagesIndexRouteImport } from './routes/app.messages.index'
 import { Route as AppMaintenanceIndexRouteImport } from './routes/app.maintenance.index'
 import { Route as AppInvoicesIndexRouteImport } from './routes/app.invoices.index'
+import { Route as AppDocumentsIndexRouteImport } from './routes/app.documents.index'
 import { Route as AppContactsIndexRouteImport } from './routes/app.contacts.index'
+import { Route as AppCalendarIndexRouteImport } from './routes/app.calendar.index'
 import { Route as AppBranchesIndexRouteImport } from './routes/app.branches.index'
 import { Route as AppBillingIndexRouteImport } from './routes/app.billing.index'
 import { Route as AppPropertiesNewRouteImport } from './routes/app.properties.new'
@@ -146,10 +150,20 @@ const AppSettingsIndexRoute = AppSettingsIndexRouteImport.update({
   path: '/settings/',
   getParentRoute: () => AppRoute,
 } as any)
+const AppReportsIndexRoute = AppReportsIndexRouteImport.update({
+  id: '/reports/',
+  path: '/reports/',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppPropertiesIndexRoute = AppPropertiesIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppPropertiesRoute,
+} as any)
+const AppMessagesIndexRoute = AppMessagesIndexRouteImport.update({
+  id: '/messages/',
+  path: '/messages/',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppMaintenanceIndexRoute = AppMaintenanceIndexRouteImport.update({
   id: '/',
@@ -161,9 +175,19 @@ const AppInvoicesIndexRoute = AppInvoicesIndexRouteImport.update({
   path: '/invoices/',
   getParentRoute: () => AppRoute,
 } as any)
+const AppDocumentsIndexRoute = AppDocumentsIndexRouteImport.update({
+  id: '/documents/',
+  path: '/documents/',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppContactsIndexRoute = AppContactsIndexRouteImport.update({
   id: '/contacts/',
   path: '/contacts/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCalendarIndexRoute = AppCalendarIndexRouteImport.update({
+  id: '/calendar/',
+  path: '/calendar/',
   getParentRoute: () => AppRoute,
 } as any)
 const AppBranchesIndexRoute = AppBranchesIndexRouteImport.update({
@@ -221,10 +245,14 @@ export interface FileRoutesByFullPath {
   '/app/properties/new': typeof AppPropertiesNewRoute
   '/app/billing/': typeof AppBillingIndexRoute
   '/app/branches/': typeof AppBranchesIndexRoute
+  '/app/calendar/': typeof AppCalendarIndexRoute
   '/app/contacts/': typeof AppContactsIndexRoute
+  '/app/documents/': typeof AppDocumentsIndexRoute
   '/app/invoices/': typeof AppInvoicesIndexRoute
   '/app/maintenance/': typeof AppMaintenanceIndexRoute
+  '/app/messages/': typeof AppMessagesIndexRoute
   '/app/properties/': typeof AppPropertiesIndexRoute
+  '/app/reports/': typeof AppReportsIndexRoute
   '/app/settings/': typeof AppSettingsIndexRoute
   '/app/staff/': typeof AppStaffIndexRoute
   '/app/tenancies/': typeof AppTenanciesIndexRoute
@@ -250,10 +278,14 @@ export interface FileRoutesByTo {
   '/app/properties/new': typeof AppPropertiesNewRoute
   '/app/billing': typeof AppBillingIndexRoute
   '/app/branches': typeof AppBranchesIndexRoute
+  '/app/calendar': typeof AppCalendarIndexRoute
   '/app/contacts': typeof AppContactsIndexRoute
+  '/app/documents': typeof AppDocumentsIndexRoute
   '/app/invoices': typeof AppInvoicesIndexRoute
   '/app/maintenance': typeof AppMaintenanceIndexRoute
+  '/app/messages': typeof AppMessagesIndexRoute
   '/app/properties': typeof AppPropertiesIndexRoute
+  '/app/reports': typeof AppReportsIndexRoute
   '/app/settings': typeof AppSettingsIndexRoute
   '/app/staff': typeof AppStaffIndexRoute
   '/app/tenancies': typeof AppTenanciesIndexRoute
@@ -284,10 +316,14 @@ export interface FileRoutesById {
   '/app/properties/new': typeof AppPropertiesNewRoute
   '/app/billing/': typeof AppBillingIndexRoute
   '/app/branches/': typeof AppBranchesIndexRoute
+  '/app/calendar/': typeof AppCalendarIndexRoute
   '/app/contacts/': typeof AppContactsIndexRoute
+  '/app/documents/': typeof AppDocumentsIndexRoute
   '/app/invoices/': typeof AppInvoicesIndexRoute
   '/app/maintenance/': typeof AppMaintenanceIndexRoute
+  '/app/messages/': typeof AppMessagesIndexRoute
   '/app/properties/': typeof AppPropertiesIndexRoute
+  '/app/reports/': typeof AppReportsIndexRoute
   '/app/settings/': typeof AppSettingsIndexRoute
   '/app/staff/': typeof AppStaffIndexRoute
   '/app/tenancies/': typeof AppTenanciesIndexRoute
@@ -319,10 +355,14 @@ export interface FileRouteTypes {
     | '/app/properties/new'
     | '/app/billing/'
     | '/app/branches/'
+    | '/app/calendar/'
     | '/app/contacts/'
+    | '/app/documents/'
     | '/app/invoices/'
     | '/app/maintenance/'
+    | '/app/messages/'
     | '/app/properties/'
+    | '/app/reports/'
     | '/app/settings/'
     | '/app/staff/'
     | '/app/tenancies/'
@@ -348,10 +388,14 @@ export interface FileRouteTypes {
     | '/app/properties/new'
     | '/app/billing'
     | '/app/branches'
+    | '/app/calendar'
     | '/app/contacts'
+    | '/app/documents'
     | '/app/invoices'
     | '/app/maintenance'
+    | '/app/messages'
     | '/app/properties'
+    | '/app/reports'
     | '/app/settings'
     | '/app/staff'
     | '/app/tenancies'
@@ -381,10 +425,14 @@ export interface FileRouteTypes {
     | '/app/properties/new'
     | '/app/billing/'
     | '/app/branches/'
+    | '/app/calendar/'
     | '/app/contacts/'
+    | '/app/documents/'
     | '/app/invoices/'
     | '/app/maintenance/'
+    | '/app/messages/'
     | '/app/properties/'
+    | '/app/reports/'
     | '/app/settings/'
     | '/app/staff/'
     | '/app/tenancies/'
@@ -555,12 +603,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSettingsIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/reports/': {
+      id: '/app/reports/'
+      path: '/reports'
+      fullPath: '/app/reports/'
+      preLoaderRoute: typeof AppReportsIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/properties/': {
       id: '/app/properties/'
       path: '/'
       fullPath: '/app/properties/'
       preLoaderRoute: typeof AppPropertiesIndexRouteImport
       parentRoute: typeof AppPropertiesRoute
+    }
+    '/app/messages/': {
+      id: '/app/messages/'
+      path: '/messages'
+      fullPath: '/app/messages/'
+      preLoaderRoute: typeof AppMessagesIndexRouteImport
+      parentRoute: typeof AppRoute
     }
     '/app/maintenance/': {
       id: '/app/maintenance/'
@@ -576,11 +638,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppInvoicesIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/documents/': {
+      id: '/app/documents/'
+      path: '/documents'
+      fullPath: '/app/documents/'
+      preLoaderRoute: typeof AppDocumentsIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/contacts/': {
       id: '/app/contacts/'
       path: '/contacts'
       fullPath: '/app/contacts/'
       preLoaderRoute: typeof AppContactsIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/calendar/': {
+      id: '/app/calendar/'
+      path: '/calendar'
+      fullPath: '/app/calendar/'
+      preLoaderRoute: typeof AppCalendarIndexRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/branches/': {
@@ -676,8 +752,12 @@ interface AppRouteChildren {
   AppIndexRoute: typeof AppIndexRoute
   AppBillingIndexRoute: typeof AppBillingIndexRoute
   AppBranchesIndexRoute: typeof AppBranchesIndexRoute
+  AppCalendarIndexRoute: typeof AppCalendarIndexRoute
   AppContactsIndexRoute: typeof AppContactsIndexRoute
+  AppDocumentsIndexRoute: typeof AppDocumentsIndexRoute
   AppInvoicesIndexRoute: typeof AppInvoicesIndexRoute
+  AppMessagesIndexRoute: typeof AppMessagesIndexRoute
+  AppReportsIndexRoute: typeof AppReportsIndexRoute
   AppSettingsIndexRoute: typeof AppSettingsIndexRoute
   AppStaffIndexRoute: typeof AppStaffIndexRoute
   AppTenanciesIndexRoute: typeof AppTenanciesIndexRoute
@@ -689,8 +769,12 @@ const AppRouteChildren: AppRouteChildren = {
   AppIndexRoute: AppIndexRoute,
   AppBillingIndexRoute: AppBillingIndexRoute,
   AppBranchesIndexRoute: AppBranchesIndexRoute,
+  AppCalendarIndexRoute: AppCalendarIndexRoute,
   AppContactsIndexRoute: AppContactsIndexRoute,
+  AppDocumentsIndexRoute: AppDocumentsIndexRoute,
   AppInvoicesIndexRoute: AppInvoicesIndexRoute,
+  AppMessagesIndexRoute: AppMessagesIndexRoute,
+  AppReportsIndexRoute: AppReportsIndexRoute,
   AppSettingsIndexRoute: AppSettingsIndexRoute,
   AppStaffIndexRoute: AppStaffIndexRoute,
   AppTenanciesIndexRoute: AppTenanciesIndexRoute,
