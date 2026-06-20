@@ -25,6 +25,10 @@ import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as CheckoutSuccessRouteImport } from './routes/checkout.success'
 import { Route as CheckoutFailedRouteImport } from './routes/checkout.failed'
 import { Route as AppPropertiesRouteImport } from './routes/app.properties'
+import { Route as AppPropertiesIndexRouteImport } from './routes/app.properties.index'
+import { Route as AppPropertiesNewRouteImport } from './routes/app.properties.new'
+import { Route as AppPropertiesIdRouteImport } from './routes/app.properties.$id'
+import { Route as AppPropertiesIdEditRouteImport } from './routes/app.properties.$id.edit'
 
 const VerifyEmailRoute = VerifyEmailRouteImport.update({
   id: '/verify-email',
@@ -106,6 +110,26 @@ const AppPropertiesRoute = AppPropertiesRouteImport.update({
   path: '/properties',
   getParentRoute: () => AppRoute,
 } as any)
+const AppPropertiesIndexRoute = AppPropertiesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppPropertiesRoute,
+} as any)
+const AppPropertiesNewRoute = AppPropertiesNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => AppPropertiesRoute,
+} as any)
+const AppPropertiesIdRoute = AppPropertiesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AppPropertiesRoute,
+} as any)
+const AppPropertiesIdEditRoute = AppPropertiesIdEditRouteImport.update({
+  id: '/edit',
+  path: '/edit',
+  getParentRoute: () => AppPropertiesIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -120,10 +144,14 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/verify-email': typeof VerifyEmailRoute
-  '/app/properties': typeof AppPropertiesRoute
+  '/app/properties': typeof AppPropertiesRouteWithChildren
   '/checkout/failed': typeof CheckoutFailedRoute
   '/checkout/success': typeof CheckoutSuccessRoute
   '/app/': typeof AppIndexRoute
+  '/app/properties/$id': typeof AppPropertiesIdRouteWithChildren
+  '/app/properties/new': typeof AppPropertiesNewRoute
+  '/app/properties/': typeof AppPropertiesIndexRoute
+  '/app/properties/$id/edit': typeof AppPropertiesIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -137,10 +165,13 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/verify-email': typeof VerifyEmailRoute
-  '/app/properties': typeof AppPropertiesRoute
   '/checkout/failed': typeof CheckoutFailedRoute
   '/checkout/success': typeof CheckoutSuccessRoute
   '/app': typeof AppIndexRoute
+  '/app/properties/$id': typeof AppPropertiesIdRouteWithChildren
+  '/app/properties/new': typeof AppPropertiesNewRoute
+  '/app/properties': typeof AppPropertiesIndexRoute
+  '/app/properties/$id/edit': typeof AppPropertiesIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -156,10 +187,14 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/verify-email': typeof VerifyEmailRoute
-  '/app/properties': typeof AppPropertiesRoute
+  '/app/properties': typeof AppPropertiesRouteWithChildren
   '/checkout/failed': typeof CheckoutFailedRoute
   '/checkout/success': typeof CheckoutSuccessRoute
   '/app/': typeof AppIndexRoute
+  '/app/properties/$id': typeof AppPropertiesIdRouteWithChildren
+  '/app/properties/new': typeof AppPropertiesNewRoute
+  '/app/properties/': typeof AppPropertiesIndexRoute
+  '/app/properties/$id/edit': typeof AppPropertiesIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -180,6 +215,10 @@ export interface FileRouteTypes {
     | '/checkout/failed'
     | '/checkout/success'
     | '/app/'
+    | '/app/properties/$id'
+    | '/app/properties/new'
+    | '/app/properties/'
+    | '/app/properties/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -193,10 +232,13 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/verify-email'
-    | '/app/properties'
     | '/checkout/failed'
     | '/checkout/success'
     | '/app'
+    | '/app/properties/$id'
+    | '/app/properties/new'
+    | '/app/properties'
+    | '/app/properties/$id/edit'
   id:
     | '__root__'
     | '/'
@@ -215,6 +257,10 @@ export interface FileRouteTypes {
     | '/checkout/failed'
     | '/checkout/success'
     | '/app/'
+    | '/app/properties/$id'
+    | '/app/properties/new'
+    | '/app/properties/'
+    | '/app/properties/$id/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -346,16 +392,72 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPropertiesRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/properties/': {
+      id: '/app/properties/'
+      path: '/'
+      fullPath: '/app/properties/'
+      preLoaderRoute: typeof AppPropertiesIndexRouteImport
+      parentRoute: typeof AppPropertiesRoute
+    }
+    '/app/properties/new': {
+      id: '/app/properties/new'
+      path: '/new'
+      fullPath: '/app/properties/new'
+      preLoaderRoute: typeof AppPropertiesNewRouteImport
+      parentRoute: typeof AppPropertiesRoute
+    }
+    '/app/properties/$id': {
+      id: '/app/properties/$id'
+      path: '/$id'
+      fullPath: '/app/properties/$id'
+      preLoaderRoute: typeof AppPropertiesIdRouteImport
+      parentRoute: typeof AppPropertiesRoute
+    }
+    '/app/properties/$id/edit': {
+      id: '/app/properties/$id/edit'
+      path: '/edit'
+      fullPath: '/app/properties/$id/edit'
+      preLoaderRoute: typeof AppPropertiesIdEditRouteImport
+      parentRoute: typeof AppPropertiesIdRoute
+    }
   }
 }
 
+interface AppPropertiesIdRouteChildren {
+  AppPropertiesIdEditRoute: typeof AppPropertiesIdEditRoute
+}
+
+const AppPropertiesIdRouteChildren: AppPropertiesIdRouteChildren = {
+  AppPropertiesIdEditRoute: AppPropertiesIdEditRoute,
+}
+
+const AppPropertiesIdRouteWithChildren = AppPropertiesIdRoute._addFileChildren(
+  AppPropertiesIdRouteChildren,
+)
+
+interface AppPropertiesRouteChildren {
+  AppPropertiesIdRoute: typeof AppPropertiesIdRouteWithChildren
+  AppPropertiesNewRoute: typeof AppPropertiesNewRoute
+  AppPropertiesIndexRoute: typeof AppPropertiesIndexRoute
+}
+
+const AppPropertiesRouteChildren: AppPropertiesRouteChildren = {
+  AppPropertiesIdRoute: AppPropertiesIdRouteWithChildren,
+  AppPropertiesNewRoute: AppPropertiesNewRoute,
+  AppPropertiesIndexRoute: AppPropertiesIndexRoute,
+}
+
+const AppPropertiesRouteWithChildren = AppPropertiesRoute._addFileChildren(
+  AppPropertiesRouteChildren,
+)
+
 interface AppRouteChildren {
-  AppPropertiesRoute: typeof AppPropertiesRoute
+  AppPropertiesRoute: typeof AppPropertiesRouteWithChildren
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
-  AppPropertiesRoute: AppPropertiesRoute,
+  AppPropertiesRoute: AppPropertiesRouteWithChildren,
   AppIndexRoute: AppIndexRoute,
 }
 
