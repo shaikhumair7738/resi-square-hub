@@ -21,7 +21,7 @@ export const Route = createFileRoute("/app/properties/$id")({
 function PropertyDetailPage() {
   const { id } = Route.useParams();
   const navigate = useNavigate();
-  const { properties, branches, staff, contacts, tenancies, archiveProperty } = useProto();
+  const { properties, branches, staffList: staff, contacts, tenancies, archiveProperty } = useProto();
   const p = properties.find((x) => x.id === id);
   const [tab, setTab] = useState("overview");
 
