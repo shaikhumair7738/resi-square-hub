@@ -45,6 +45,9 @@ export function PublicLayout({ children }: { children: ReactNode }) {
             <Button asChild variant="ghost" size="sm">
               <Link to="/login">Sign in</Link>
             </Button>
+            <Button asChild variant="outline" size="sm">
+              <Link to="/app">Open app</Link>
+            </Button>
             <Button asChild size="sm" className="bg-teal hover:bg-teal/90 text-teal-foreground">
               <Link to="/register">Start free trial</Link>
             </Button>
