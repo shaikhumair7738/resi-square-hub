@@ -106,9 +106,16 @@ interface ProtoState {
   activeRoleId: RoleId;
   subscriptions: Record<string, Subscription>;
   properties: Property[];
+  invoices: Invoice[];
+  payments: Payment[];
+  tickets: MaintenanceTicket[];
+  quotes: Quote[];
+  workOrders: WorkOrder[];
+  messages: MessageItem[];
+  staffList: StaffMember[];
 }
 
-const STORAGE_KEY = "resisquare.proto.v2";
+const STORAGE_KEY = "resisquare.proto.v3";
 
 const DEFAULT_STATE: ProtoState = {
   activeRoleId: "agent_admin",
@@ -132,6 +139,13 @@ const DEFAULT_STATE: ProtoState = {
     },
   },
   properties: SEED_PROPERTIES,
+  invoices: SEED_INVOICES,
+  payments: SEED_PAYMENTS,
+  tickets: SEED_TICKETS,
+  quotes: SEED_QUOTES,
+  workOrders: SEED_WORK_ORDERS,
+  messages: SEED_MESSAGES,
+  staffList: SEED_STAFF,
 };
 
 function addDaysISO(base: Date, days: number): string {
@@ -149,13 +163,26 @@ interface ProtoContextValue extends ProtoState {
   createProperty: (p: Omit<Property, "id" | "createdAt">) => Property;
   updateProperty: (id: string, patch: Partial<Property>) => void;
   archiveProperty: (id: string, archived: boolean) => void;
+  recordPayment: (invoiceId: string, amount: number, method: Payment["method"], reference?: string) => void;
+  createTicket: (t: Omit<MaintenanceTicket, "id" | "reportedAt" | "status">) => MaintenanceTicket;
+  setTicketStatus: (id: string, status: TicketStatus) => void;
+  assignContractor: (ticketId: string, contractorContactId: string) => void;
+  addQuote: (q: Omit<Quote, "id" | "status" | "submittedAt">) => Quote;
+  acceptQuote: (quoteId: string, scheduledFor: string) => void;
+  markWorkOrderComplete: (id: string) => void;
+  addStaff: (s: Omit<StaffMember, "id">) => StaffMember;
+  removeStaff: (id: string) => void;
+  markMessageRead: (id: string) => void;
   activeRole: RoleOption;
   activeWorkspace: Workspace;
   // static lookups
   branches: Branch[];
-  staff: StaffMember[];
   contacts: Contact[];
   tenancies: Tenancy[];
+  documents: DocumentItem[];
+  calendar: CalendarEvent[];
+  platformCustomers: PlatformCustomer[];
+  stripeEvents: StripeEvent[];
 }
 
 const ProtoContext = createContext<ProtoContextValue | null>(null);
