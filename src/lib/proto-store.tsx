@@ -403,6 +403,9 @@ export interface NavPermissions {
   tenancies: boolean;
   maintenance: boolean;
   invoices: boolean;
+  documents: boolean;
+  messages: boolean;
+  calendar: boolean;
   branches: boolean;
   staff: boolean;
   reports: boolean;
@@ -411,20 +414,25 @@ export interface NavPermissions {
 }
 
 export function permsForRole(roleId: RoleId): NavPermissions {
+  const all = (v: Partial<NavPermissions>): NavPermissions => ({
+    dashboard: false, properties: false, contacts: false, tenancies: false, maintenance: false,
+    invoices: false, documents: false, messages: false, calendar: false, branches: false,
+    staff: false, reports: false, billing: false, settings: false, ...v,
+  });
   switch (roleId) {
     case "agent_admin":
-      return { dashboard: true, properties: true, contacts: true, tenancies: true, maintenance: true, invoices: true, branches: true, staff: true, reports: true, billing: true, settings: true };
+      return all({ dashboard: true, properties: true, contacts: true, tenancies: true, maintenance: true, invoices: true, documents: true, messages: true, calendar: true, branches: true, staff: true, reports: true, billing: true, settings: true });
     case "branch_manager":
-      return { dashboard: true, properties: true, contacts: true, tenancies: true, maintenance: true, invoices: true, branches: false, staff: true, reports: true, billing: false, settings: false };
+      return all({ dashboard: true, properties: true, contacts: true, tenancies: true, maintenance: true, invoices: true, documents: true, messages: true, calendar: true, staff: true, reports: true });
     case "property_manager":
-      return { dashboard: true, properties: true, contacts: true, tenancies: true, maintenance: true, invoices: false, branches: false, staff: false, reports: false, billing: false, settings: false };
+      return all({ dashboard: true, properties: true, contacts: true, tenancies: true, maintenance: true, documents: true, messages: true, calendar: true });
     case "staff":
-      return { dashboard: true, properties: true, contacts: true, tenancies: true, maintenance: true, invoices: false, branches: false, staff: false, reports: false, billing: false, settings: false };
+      return all({ dashboard: true, properties: true, contacts: true, tenancies: true, maintenance: true, documents: true, messages: true, calendar: true });
     case "accountant":
-      return { dashboard: true, properties: true, contacts: true, tenancies: true, maintenance: false, invoices: true, branches: false, staff: false, reports: true, billing: true, settings: false };
+      return all({ dashboard: true, properties: true, contacts: true, tenancies: true, invoices: true, documents: true, reports: true, billing: true });
     case "landlord_owner":
-      return { dashboard: true, properties: true, contacts: true, tenancies: true, maintenance: true, invoices: true, branches: false, staff: false, reports: true, billing: true, settings: true };
+      return all({ dashboard: true, properties: true, contacts: true, tenancies: true, maintenance: true, invoices: true, documents: true, messages: true, calendar: true, reports: true, billing: true, settings: true });
     default:
-      return { dashboard: true, properties: false, contacts: false, tenancies: false, maintenance: false, invoices: false, branches: false, staff: false, reports: false, billing: false, settings: false };
+      return all({ dashboard: true });
   }
 }
