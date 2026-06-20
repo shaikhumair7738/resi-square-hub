@@ -28,7 +28,7 @@ function LoginPage() {
           setTimeout(() => {
             setLoading(false);
             toast.success("Signed in (simulated). Use the demo role switcher to explore.");
-            navigate({ to: "/" });
+            navigate({ to: "/app" });
           }, 600);
         }}
       >

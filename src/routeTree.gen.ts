@@ -19,9 +19,16 @@ import { Route as FeaturesRouteImport } from './routes/features'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as CheckoutSuccessRouteImport } from './routes/checkout.success'
 import { Route as CheckoutFailedRouteImport } from './routes/checkout.failed'
+import { Route as AppPropertiesRouteImport } from './routes/app.properties'
+import { Route as AppPropertiesIndexRouteImport } from './routes/app.properties.index'
+import { Route as AppPropertiesNewRouteImport } from './routes/app.properties.new'
+import { Route as AppPropertiesIdRouteImport } from './routes/app.properties.$id'
+import { Route as AppPropertiesIdEditRouteImport } from './routes/app.properties.$id.edit'
 
 const VerifyEmailRoute = VerifyEmailRouteImport.update({
   id: '/verify-email',
@@ -73,10 +80,20 @@ const CheckoutRoute = CheckoutRouteImport.update({
   path: '/checkout',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
 } as any)
 const CheckoutSuccessRoute = CheckoutSuccessRouteImport.update({
   id: '/success',
@@ -88,9 +105,35 @@ const CheckoutFailedRoute = CheckoutFailedRouteImport.update({
   path: '/failed',
   getParentRoute: () => CheckoutRoute,
 } as any)
+const AppPropertiesRoute = AppPropertiesRouteImport.update({
+  id: '/properties',
+  path: '/properties',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPropertiesIndexRoute = AppPropertiesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppPropertiesRoute,
+} as any)
+const AppPropertiesNewRoute = AppPropertiesNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => AppPropertiesRoute,
+} as any)
+const AppPropertiesIdRoute = AppPropertiesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AppPropertiesRoute,
+} as any)
+const AppPropertiesIdEditRoute = AppPropertiesIdEditRouteImport.update({
+  id: '/edit',
+  path: '/edit',
+  getParentRoute: () => AppPropertiesIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
   '/checkout': typeof CheckoutRouteWithChildren
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
@@ -101,8 +144,14 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/verify-email': typeof VerifyEmailRoute
+  '/app/properties': typeof AppPropertiesRouteWithChildren
   '/checkout/failed': typeof CheckoutFailedRoute
   '/checkout/success': typeof CheckoutSuccessRoute
+  '/app/': typeof AppIndexRoute
+  '/app/properties/$id': typeof AppPropertiesIdRouteWithChildren
+  '/app/properties/new': typeof AppPropertiesNewRoute
+  '/app/properties/': typeof AppPropertiesIndexRoute
+  '/app/properties/$id/edit': typeof AppPropertiesIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -118,10 +167,16 @@ export interface FileRoutesByTo {
   '/verify-email': typeof VerifyEmailRoute
   '/checkout/failed': typeof CheckoutFailedRoute
   '/checkout/success': typeof CheckoutSuccessRoute
+  '/app': typeof AppIndexRoute
+  '/app/properties/$id': typeof AppPropertiesIdRouteWithChildren
+  '/app/properties/new': typeof AppPropertiesNewRoute
+  '/app/properties': typeof AppPropertiesIndexRoute
+  '/app/properties/$id/edit': typeof AppPropertiesIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
   '/checkout': typeof CheckoutRouteWithChildren
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
@@ -132,13 +187,20 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/verify-email': typeof VerifyEmailRoute
+  '/app/properties': typeof AppPropertiesRouteWithChildren
   '/checkout/failed': typeof CheckoutFailedRoute
   '/checkout/success': typeof CheckoutSuccessRoute
+  '/app/': typeof AppIndexRoute
+  '/app/properties/$id': typeof AppPropertiesIdRouteWithChildren
+  '/app/properties/new': typeof AppPropertiesNewRoute
+  '/app/properties/': typeof AppPropertiesIndexRoute
+  '/app/properties/$id/edit': typeof AppPropertiesIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/app'
     | '/checkout'
     | '/contact'
     | '/faq'
@@ -149,8 +211,14 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/verify-email'
+    | '/app/properties'
     | '/checkout/failed'
     | '/checkout/success'
+    | '/app/'
+    | '/app/properties/$id'
+    | '/app/properties/new'
+    | '/app/properties/'
+    | '/app/properties/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -166,9 +234,15 @@ export interface FileRouteTypes {
     | '/verify-email'
     | '/checkout/failed'
     | '/checkout/success'
+    | '/app'
+    | '/app/properties/$id'
+    | '/app/properties/new'
+    | '/app/properties'
+    | '/app/properties/$id/edit'
   id:
     | '__root__'
     | '/'
+    | '/app'
     | '/checkout'
     | '/contact'
     | '/faq'
@@ -179,12 +253,19 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/verify-email'
+    | '/app/properties'
     | '/checkout/failed'
     | '/checkout/success'
+    | '/app/'
+    | '/app/properties/$id'
+    | '/app/properties/new'
+    | '/app/properties/'
+    | '/app/properties/$id/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
   CheckoutRoute: typeof CheckoutRouteWithChildren
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
@@ -269,12 +350,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CheckoutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
     }
     '/checkout/success': {
       id: '/checkout/success'
@@ -290,8 +385,83 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CheckoutFailedRouteImport
       parentRoute: typeof CheckoutRoute
     }
+    '/app/properties': {
+      id: '/app/properties'
+      path: '/properties'
+      fullPath: '/app/properties'
+      preLoaderRoute: typeof AppPropertiesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/properties/': {
+      id: '/app/properties/'
+      path: '/'
+      fullPath: '/app/properties/'
+      preLoaderRoute: typeof AppPropertiesIndexRouteImport
+      parentRoute: typeof AppPropertiesRoute
+    }
+    '/app/properties/new': {
+      id: '/app/properties/new'
+      path: '/new'
+      fullPath: '/app/properties/new'
+      preLoaderRoute: typeof AppPropertiesNewRouteImport
+      parentRoute: typeof AppPropertiesRoute
+    }
+    '/app/properties/$id': {
+      id: '/app/properties/$id'
+      path: '/$id'
+      fullPath: '/app/properties/$id'
+      preLoaderRoute: typeof AppPropertiesIdRouteImport
+      parentRoute: typeof AppPropertiesRoute
+    }
+    '/app/properties/$id/edit': {
+      id: '/app/properties/$id/edit'
+      path: '/edit'
+      fullPath: '/app/properties/$id/edit'
+      preLoaderRoute: typeof AppPropertiesIdEditRouteImport
+      parentRoute: typeof AppPropertiesIdRoute
+    }
   }
 }
+
+interface AppPropertiesIdRouteChildren {
+  AppPropertiesIdEditRoute: typeof AppPropertiesIdEditRoute
+}
+
+const AppPropertiesIdRouteChildren: AppPropertiesIdRouteChildren = {
+  AppPropertiesIdEditRoute: AppPropertiesIdEditRoute,
+}
+
+const AppPropertiesIdRouteWithChildren = AppPropertiesIdRoute._addFileChildren(
+  AppPropertiesIdRouteChildren,
+)
+
+interface AppPropertiesRouteChildren {
+  AppPropertiesIdRoute: typeof AppPropertiesIdRouteWithChildren
+  AppPropertiesNewRoute: typeof AppPropertiesNewRoute
+  AppPropertiesIndexRoute: typeof AppPropertiesIndexRoute
+}
+
+const AppPropertiesRouteChildren: AppPropertiesRouteChildren = {
+  AppPropertiesIdRoute: AppPropertiesIdRouteWithChildren,
+  AppPropertiesNewRoute: AppPropertiesNewRoute,
+  AppPropertiesIndexRoute: AppPropertiesIndexRoute,
+}
+
+const AppPropertiesRouteWithChildren = AppPropertiesRoute._addFileChildren(
+  AppPropertiesRouteChildren,
+)
+
+interface AppRouteChildren {
+  AppPropertiesRoute: typeof AppPropertiesRouteWithChildren
+  AppIndexRoute: typeof AppIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppPropertiesRoute: AppPropertiesRouteWithChildren,
+  AppIndexRoute: AppIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 interface CheckoutRouteChildren {
   CheckoutFailedRoute: typeof CheckoutFailedRoute
@@ -309,6 +479,7 @@ const CheckoutRouteWithChildren = CheckoutRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
   CheckoutRoute: CheckoutRouteWithChildren,
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,

@@ -1,10 +1,22 @@
 /**
- * Resisquare prototype state — workspace, role, billing, lightweight seeded data.
- * Persisted to localStorage so create/edit flows feel real across navigation.
- * SSR-safe: hooks fall back to defaults until the client hydrates.
+ * Resisquare prototype state — workspace, role, billing, and the mutable
+ * Properties slice (create / edit / archive persisted to localStorage).
+ * Static seed for branches, staff, contacts and tenancies lives in seed.ts.
  */
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import type { PlanId, Interval } from "./pricing";
+import {
+  SEED_BRANCHES,
+  SEED_CONTACTS,
+  SEED_PROPERTIES,
+  SEED_STAFF,
+  SEED_TENANCIES,
+  type Branch,
+  type Contact,
+  type Property,
+  type StaffMember,
+  type Tenancy,
+} from "./seed";
 
 export type WorkspaceType = "platform" | "agency" | "landlord" | "tenant" | "contractor" | "owner";
 export type RoleId =
@@ -61,18 +73,19 @@ export interface Subscription {
   planId: PlanId;
   interval: Interval;
   status: BillingStatus;
-  trialEndsAt?: string; // ISO
-  currentPeriodEnd?: string; // ISO
-  addOns: Record<string, number>; // addonId -> qty
+  trialEndsAt?: string;
+  currentPeriodEnd?: string;
+  addOns: Record<string, number>;
   cancelAtPeriodEnd?: boolean;
 }
 
 interface ProtoState {
   activeRoleId: RoleId;
   subscriptions: Record<string, Subscription>;
+  properties: Property[];
 }
 
-const STORAGE_KEY = "resisquare.proto.v1";
+const STORAGE_KEY = "resisquare.proto.v2";
 
 const DEFAULT_STATE: ProtoState = {
   activeRoleId: "agent_admin",
@@ -95,6 +108,7 @@ const DEFAULT_STATE: ProtoState = {
       addOns: {},
     },
   },
+  properties: SEED_PROPERTIES,
 };
 
 function addDaysISO(base: Date, days: number): string {
@@ -109,8 +123,16 @@ interface ProtoContextValue extends ProtoState {
   cancelSubscription: (workspaceId: string) => void;
   reactivateSubscription: (workspaceId: string) => void;
   setSubscriptionStatus: (workspaceId: string, status: BillingStatus) => void;
+  createProperty: (p: Omit<Property, "id" | "createdAt">) => Property;
+  updateProperty: (id: string, patch: Partial<Property>) => void;
+  archiveProperty: (id: string, archived: boolean) => void;
   activeRole: RoleOption;
   activeWorkspace: Workspace;
+  // static lookups
+  branches: Branch[];
+  staff: StaffMember[];
+  contacts: Contact[];
+  tenancies: Tenancy[];
 }
 
 const ProtoContext = createContext<ProtoContextValue | null>(null);
@@ -124,8 +146,13 @@ export function ProtoProvider({ children }: { children: ReactNode }) {
     try {
       const raw = window.localStorage.getItem(STORAGE_KEY);
       if (raw) {
-        const parsed = JSON.parse(raw) as ProtoState;
-        setState({ ...DEFAULT_STATE, ...parsed, subscriptions: { ...DEFAULT_STATE.subscriptions, ...parsed.subscriptions } });
+        const parsed = JSON.parse(raw) as Partial<ProtoState>;
+        setState({
+          ...DEFAULT_STATE,
+          ...parsed,
+          subscriptions: { ...DEFAULT_STATE.subscriptions, ...(parsed.subscriptions ?? {}) },
+          properties: parsed.properties && parsed.properties.length > 0 ? parsed.properties : DEFAULT_STATE.properties,
+        });
       }
     } catch (err) {
       console.warn("proto state hydrate failed", err);
@@ -150,13 +177,7 @@ export function ProtoProvider({ children }: { children: ReactNode }) {
     setState((s) => {
       const existing = s.subscriptions[workspaceId];
       if (!existing) return s;
-      return {
-        ...s,
-        subscriptions: {
-          ...s.subscriptions,
-          [workspaceId]: { ...existing, cancelAtPeriodEnd: true },
-        },
-      };
+      return { ...s, subscriptions: { ...s.subscriptions, [workspaceId]: { ...existing, cancelAtPeriodEnd: true } } };
     });
   }, []);
 
@@ -164,13 +185,7 @@ export function ProtoProvider({ children }: { children: ReactNode }) {
     setState((s) => {
       const existing = s.subscriptions[workspaceId];
       if (!existing) return s;
-      return {
-        ...s,
-        subscriptions: {
-          ...s.subscriptions,
-          [workspaceId]: { ...existing, cancelAtPeriodEnd: false, status: "active" },
-        },
-      };
+      return { ...s, subscriptions: { ...s.subscriptions, [workspaceId]: { ...existing, cancelAtPeriodEnd: false, status: "active" } } };
     });
   }, []);
 
@@ -178,11 +193,32 @@ export function ProtoProvider({ children }: { children: ReactNode }) {
     setState((s) => {
       const existing = s.subscriptions[workspaceId];
       if (!existing) return s;
-      return {
-        ...s,
-        subscriptions: { ...s.subscriptions, [workspaceId]: { ...existing, status } },
-      };
+      return { ...s, subscriptions: { ...s.subscriptions, [workspaceId]: { ...existing, status } } };
     });
+  }, []);
+
+  const createProperty = useCallback<ProtoContextValue["createProperty"]>((p) => {
+    const newProp: Property = {
+      ...p,
+      id: `pr-${Math.random().toString(36).slice(2, 9)}`,
+      createdAt: new Date().toISOString(),
+    };
+    setState((s) => ({ ...s, properties: [newProp, ...s.properties] }));
+    return newProp;
+  }, []);
+
+  const updateProperty = useCallback((id: string, patch: Partial<Property>) => {
+    setState((s) => ({
+      ...s,
+      properties: s.properties.map((p) => (p.id === id ? { ...p, ...patch } : p)),
+    }));
+  }, []);
+
+  const archiveProperty = useCallback((id: string, archived: boolean) => {
+    setState((s) => ({
+      ...s,
+      properties: s.properties.map((p) => (p.id === id ? { ...p, archived } : p)),
+    }));
   }, []);
 
   const value = useMemo<ProtoContextValue>(() => {
@@ -195,10 +231,17 @@ export function ProtoProvider({ children }: { children: ReactNode }) {
       cancelSubscription,
       reactivateSubscription,
       setSubscriptionStatus,
+      createProperty,
+      updateProperty,
+      archiveProperty,
       activeRole,
       activeWorkspace,
+      branches: SEED_BRANCHES,
+      staff: SEED_STAFF,
+      contacts: SEED_CONTACTS,
+      tenancies: SEED_TENANCIES,
     };
-  }, [state, setActiveRole, upsertSubscription, cancelSubscription, reactivateSubscription, setSubscriptionStatus]);
+  }, [state, setActiveRole, upsertSubscription, cancelSubscription, reactivateSubscription, setSubscriptionStatus, createProperty, updateProperty, archiveProperty]);
 
   return <ProtoContext.Provider value={value}>{children}</ProtoContext.Provider>;
 }
@@ -207,4 +250,39 @@ export function useProto(): ProtoContextValue {
   const ctx = useContext(ProtoContext);
   if (!ctx) throw new Error("useProto must be used within ProtoProvider");
   return ctx;
+}
+
+// ---------- permission helpers ----------
+
+export interface NavPermissions {
+  dashboard: boolean;
+  properties: boolean;
+  contacts: boolean;
+  tenancies: boolean;
+  maintenance: boolean;
+  invoices: boolean;
+  branches: boolean;
+  staff: boolean;
+  reports: boolean;
+  billing: boolean;
+  settings: boolean;
+}
+
+export function permsForRole(roleId: RoleId): NavPermissions {
+  switch (roleId) {
+    case "agent_admin":
+      return { dashboard: true, properties: true, contacts: true, tenancies: true, maintenance: true, invoices: true, branches: true, staff: true, reports: true, billing: true, settings: true };
+    case "branch_manager":
+      return { dashboard: true, properties: true, contacts: true, tenancies: true, maintenance: true, invoices: true, branches: false, staff: true, reports: true, billing: false, settings: false };
+    case "property_manager":
+      return { dashboard: true, properties: true, contacts: true, tenancies: true, maintenance: true, invoices: false, branches: false, staff: false, reports: false, billing: false, settings: false };
+    case "staff":
+      return { dashboard: true, properties: true, contacts: true, tenancies: true, maintenance: true, invoices: false, branches: false, staff: false, reports: false, billing: false, settings: false };
+    case "accountant":
+      return { dashboard: true, properties: true, contacts: true, tenancies: true, maintenance: false, invoices: true, branches: false, staff: false, reports: true, billing: true, settings: false };
+    case "landlord_owner":
+      return { dashboard: true, properties: true, contacts: true, tenancies: true, maintenance: true, invoices: true, branches: false, staff: false, reports: true, billing: true, settings: true };
+    default:
+      return { dashboard: true, properties: false, contacts: false, tenancies: false, maintenance: false, invoices: false, branches: false, staff: false, reports: false, billing: false, settings: false };
+  }
 }
