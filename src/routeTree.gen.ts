@@ -44,6 +44,13 @@ import { Route as AppPropertiesNewRouteImport } from './routes/app.properties.ne
 import { Route as AppPropertiesIdRouteImport } from './routes/app.properties.$id'
 import { Route as AppMaintenanceIdRouteImport } from './routes/app.maintenance.$id'
 import { Route as AppPropertiesIdEditRouteImport } from './routes/app.properties.$id.edit'
+import { Route as AppPortalTenantTenancyRouteImport } from './routes/app.portal.tenant.tenancy'
+import { Route as AppPortalTenantPaymentsRouteImport } from './routes/app.portal.tenant.payments'
+import { Route as AppPortalTenantMaintenanceRouteImport } from './routes/app.portal.tenant.maintenance'
+import { Route as AppPortalOwnerStatementsRouteImport } from './routes/app.portal.owner.statements'
+import { Route as AppPortalOwnerPortfolioRouteImport } from './routes/app.portal.owner.portfolio'
+import { Route as AppPortalContractorWorkOrdersRouteImport } from './routes/app.portal.contractor.work-orders'
+import { Route as AppPortalContractorQuotesRouteImport } from './routes/app.portal.contractor.quotes'
 
 const VerifyEmailRoute = VerifyEmailRouteImport.update({
   id: '/verify-email',
@@ -220,6 +227,45 @@ const AppPropertiesIdEditRoute = AppPropertiesIdEditRouteImport.update({
   path: '/edit',
   getParentRoute: () => AppPropertiesIdRoute,
 } as any)
+const AppPortalTenantTenancyRoute = AppPortalTenantTenancyRouteImport.update({
+  id: '/portal/tenant/tenancy',
+  path: '/portal/tenant/tenancy',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPortalTenantPaymentsRoute = AppPortalTenantPaymentsRouteImport.update({
+  id: '/portal/tenant/payments',
+  path: '/portal/tenant/payments',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPortalTenantMaintenanceRoute =
+  AppPortalTenantMaintenanceRouteImport.update({
+    id: '/portal/tenant/maintenance',
+    path: '/portal/tenant/maintenance',
+    getParentRoute: () => AppRoute,
+  } as any)
+const AppPortalOwnerStatementsRoute =
+  AppPortalOwnerStatementsRouteImport.update({
+    id: '/portal/owner/statements',
+    path: '/portal/owner/statements',
+    getParentRoute: () => AppRoute,
+  } as any)
+const AppPortalOwnerPortfolioRoute = AppPortalOwnerPortfolioRouteImport.update({
+  id: '/portal/owner/portfolio',
+  path: '/portal/owner/portfolio',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPortalContractorWorkOrdersRoute =
+  AppPortalContractorWorkOrdersRouteImport.update({
+    id: '/portal/contractor/work-orders',
+    path: '/portal/contractor/work-orders',
+    getParentRoute: () => AppRoute,
+  } as any)
+const AppPortalContractorQuotesRoute =
+  AppPortalContractorQuotesRouteImport.update({
+    id: '/portal/contractor/quotes',
+    path: '/portal/contractor/quotes',
+    getParentRoute: () => AppRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -256,6 +302,13 @@ export interface FileRoutesByFullPath {
   '/app/settings/': typeof AppSettingsIndexRoute
   '/app/staff/': typeof AppStaffIndexRoute
   '/app/tenancies/': typeof AppTenanciesIndexRoute
+  '/app/portal/contractor/quotes': typeof AppPortalContractorQuotesRoute
+  '/app/portal/contractor/work-orders': typeof AppPortalContractorWorkOrdersRoute
+  '/app/portal/owner/portfolio': typeof AppPortalOwnerPortfolioRoute
+  '/app/portal/owner/statements': typeof AppPortalOwnerStatementsRoute
+  '/app/portal/tenant/maintenance': typeof AppPortalTenantMaintenanceRoute
+  '/app/portal/tenant/payments': typeof AppPortalTenantPaymentsRoute
+  '/app/portal/tenant/tenancy': typeof AppPortalTenantTenancyRoute
   '/app/properties/$id/edit': typeof AppPropertiesIdEditRoute
 }
 export interface FileRoutesByTo {
@@ -289,6 +342,13 @@ export interface FileRoutesByTo {
   '/app/settings': typeof AppSettingsIndexRoute
   '/app/staff': typeof AppStaffIndexRoute
   '/app/tenancies': typeof AppTenanciesIndexRoute
+  '/app/portal/contractor/quotes': typeof AppPortalContractorQuotesRoute
+  '/app/portal/contractor/work-orders': typeof AppPortalContractorWorkOrdersRoute
+  '/app/portal/owner/portfolio': typeof AppPortalOwnerPortfolioRoute
+  '/app/portal/owner/statements': typeof AppPortalOwnerStatementsRoute
+  '/app/portal/tenant/maintenance': typeof AppPortalTenantMaintenanceRoute
+  '/app/portal/tenant/payments': typeof AppPortalTenantPaymentsRoute
+  '/app/portal/tenant/tenancy': typeof AppPortalTenantTenancyRoute
   '/app/properties/$id/edit': typeof AppPropertiesIdEditRoute
 }
 export interface FileRoutesById {
@@ -327,6 +387,13 @@ export interface FileRoutesById {
   '/app/settings/': typeof AppSettingsIndexRoute
   '/app/staff/': typeof AppStaffIndexRoute
   '/app/tenancies/': typeof AppTenanciesIndexRoute
+  '/app/portal/contractor/quotes': typeof AppPortalContractorQuotesRoute
+  '/app/portal/contractor/work-orders': typeof AppPortalContractorWorkOrdersRoute
+  '/app/portal/owner/portfolio': typeof AppPortalOwnerPortfolioRoute
+  '/app/portal/owner/statements': typeof AppPortalOwnerStatementsRoute
+  '/app/portal/tenant/maintenance': typeof AppPortalTenantMaintenanceRoute
+  '/app/portal/tenant/payments': typeof AppPortalTenantPaymentsRoute
+  '/app/portal/tenant/tenancy': typeof AppPortalTenantTenancyRoute
   '/app/properties/$id/edit': typeof AppPropertiesIdEditRoute
 }
 export interface FileRouteTypes {
@@ -366,6 +433,13 @@ export interface FileRouteTypes {
     | '/app/settings/'
     | '/app/staff/'
     | '/app/tenancies/'
+    | '/app/portal/contractor/quotes'
+    | '/app/portal/contractor/work-orders'
+    | '/app/portal/owner/portfolio'
+    | '/app/portal/owner/statements'
+    | '/app/portal/tenant/maintenance'
+    | '/app/portal/tenant/payments'
+    | '/app/portal/tenant/tenancy'
     | '/app/properties/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -399,6 +473,13 @@ export interface FileRouteTypes {
     | '/app/settings'
     | '/app/staff'
     | '/app/tenancies'
+    | '/app/portal/contractor/quotes'
+    | '/app/portal/contractor/work-orders'
+    | '/app/portal/owner/portfolio'
+    | '/app/portal/owner/statements'
+    | '/app/portal/tenant/maintenance'
+    | '/app/portal/tenant/payments'
+    | '/app/portal/tenant/tenancy'
     | '/app/properties/$id/edit'
   id:
     | '__root__'
@@ -436,6 +517,13 @@ export interface FileRouteTypes {
     | '/app/settings/'
     | '/app/staff/'
     | '/app/tenancies/'
+    | '/app/portal/contractor/quotes'
+    | '/app/portal/contractor/work-orders'
+    | '/app/portal/owner/portfolio'
+    | '/app/portal/owner/statements'
+    | '/app/portal/tenant/maintenance'
+    | '/app/portal/tenant/payments'
+    | '/app/portal/tenant/tenancy'
     | '/app/properties/$id/edit'
   fileRoutesById: FileRoutesById
 }
@@ -701,6 +789,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPropertiesIdEditRouteImport
       parentRoute: typeof AppPropertiesIdRoute
     }
+    '/app/portal/tenant/tenancy': {
+      id: '/app/portal/tenant/tenancy'
+      path: '/portal/tenant/tenancy'
+      fullPath: '/app/portal/tenant/tenancy'
+      preLoaderRoute: typeof AppPortalTenantTenancyRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/portal/tenant/payments': {
+      id: '/app/portal/tenant/payments'
+      path: '/portal/tenant/payments'
+      fullPath: '/app/portal/tenant/payments'
+      preLoaderRoute: typeof AppPortalTenantPaymentsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/portal/tenant/maintenance': {
+      id: '/app/portal/tenant/maintenance'
+      path: '/portal/tenant/maintenance'
+      fullPath: '/app/portal/tenant/maintenance'
+      preLoaderRoute: typeof AppPortalTenantMaintenanceRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/portal/owner/statements': {
+      id: '/app/portal/owner/statements'
+      path: '/portal/owner/statements'
+      fullPath: '/app/portal/owner/statements'
+      preLoaderRoute: typeof AppPortalOwnerStatementsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/portal/owner/portfolio': {
+      id: '/app/portal/owner/portfolio'
+      path: '/portal/owner/portfolio'
+      fullPath: '/app/portal/owner/portfolio'
+      preLoaderRoute: typeof AppPortalOwnerPortfolioRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/portal/contractor/work-orders': {
+      id: '/app/portal/contractor/work-orders'
+      path: '/portal/contractor/work-orders'
+      fullPath: '/app/portal/contractor/work-orders'
+      preLoaderRoute: typeof AppPortalContractorWorkOrdersRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/portal/contractor/quotes': {
+      id: '/app/portal/contractor/quotes'
+      path: '/portal/contractor/quotes'
+      fullPath: '/app/portal/contractor/quotes'
+      preLoaderRoute: typeof AppPortalContractorQuotesRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
@@ -761,6 +898,13 @@ interface AppRouteChildren {
   AppSettingsIndexRoute: typeof AppSettingsIndexRoute
   AppStaffIndexRoute: typeof AppStaffIndexRoute
   AppTenanciesIndexRoute: typeof AppTenanciesIndexRoute
+  AppPortalContractorQuotesRoute: typeof AppPortalContractorQuotesRoute
+  AppPortalContractorWorkOrdersRoute: typeof AppPortalContractorWorkOrdersRoute
+  AppPortalOwnerPortfolioRoute: typeof AppPortalOwnerPortfolioRoute
+  AppPortalOwnerStatementsRoute: typeof AppPortalOwnerStatementsRoute
+  AppPortalTenantMaintenanceRoute: typeof AppPortalTenantMaintenanceRoute
+  AppPortalTenantPaymentsRoute: typeof AppPortalTenantPaymentsRoute
+  AppPortalTenantTenancyRoute: typeof AppPortalTenantTenancyRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -778,6 +922,13 @@ const AppRouteChildren: AppRouteChildren = {
   AppSettingsIndexRoute: AppSettingsIndexRoute,
   AppStaffIndexRoute: AppStaffIndexRoute,
   AppTenanciesIndexRoute: AppTenanciesIndexRoute,
+  AppPortalContractorQuotesRoute: AppPortalContractorQuotesRoute,
+  AppPortalContractorWorkOrdersRoute: AppPortalContractorWorkOrdersRoute,
+  AppPortalOwnerPortfolioRoute: AppPortalOwnerPortfolioRoute,
+  AppPortalOwnerStatementsRoute: AppPortalOwnerStatementsRoute,
+  AppPortalTenantMaintenanceRoute: AppPortalTenantMaintenanceRoute,
+  AppPortalTenantPaymentsRoute: AppPortalTenantPaymentsRoute,
+  AppPortalTenantTenancyRoute: AppPortalTenantTenancyRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
