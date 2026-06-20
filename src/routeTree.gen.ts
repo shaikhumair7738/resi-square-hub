@@ -13,6 +13,7 @@ import { Route as VerifyEmailRouteImport } from './routes/verify-email'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as PlatformRouteImport } from './routes/platform'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as FeaturesRouteImport } from './routes/features'
@@ -21,14 +22,40 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PlatformIndexRouteImport } from './routes/platform.index'
+import { Route as CheckoutIndexRouteImport } from './routes/checkout.index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as PlatformSubscriptionsRouteImport } from './routes/platform.subscriptions'
+import { Route as PlatformEventsRouteImport } from './routes/platform.events'
+import { Route as PlatformCustomersRouteImport } from './routes/platform.customers'
 import { Route as CheckoutSuccessRouteImport } from './routes/checkout.success'
 import { Route as CheckoutFailedRouteImport } from './routes/checkout.failed'
 import { Route as AppPropertiesRouteImport } from './routes/app.properties'
+import { Route as AppMaintenanceRouteImport } from './routes/app.maintenance'
+import { Route as AppTenanciesIndexRouteImport } from './routes/app.tenancies.index'
+import { Route as AppStaffIndexRouteImport } from './routes/app.staff.index'
+import { Route as AppSettingsIndexRouteImport } from './routes/app.settings.index'
+import { Route as AppReportsIndexRouteImport } from './routes/app.reports.index'
 import { Route as AppPropertiesIndexRouteImport } from './routes/app.properties.index'
+import { Route as AppMessagesIndexRouteImport } from './routes/app.messages.index'
+import { Route as AppMaintenanceIndexRouteImport } from './routes/app.maintenance.index'
+import { Route as AppInvoicesIndexRouteImport } from './routes/app.invoices.index'
+import { Route as AppDocumentsIndexRouteImport } from './routes/app.documents.index'
+import { Route as AppContactsIndexRouteImport } from './routes/app.contacts.index'
+import { Route as AppCalendarIndexRouteImport } from './routes/app.calendar.index'
+import { Route as AppBranchesIndexRouteImport } from './routes/app.branches.index'
+import { Route as AppBillingIndexRouteImport } from './routes/app.billing.index'
 import { Route as AppPropertiesNewRouteImport } from './routes/app.properties.new'
 import { Route as AppPropertiesIdRouteImport } from './routes/app.properties.$id'
+import { Route as AppMaintenanceIdRouteImport } from './routes/app.maintenance.$id'
 import { Route as AppPropertiesIdEditRouteImport } from './routes/app.properties.$id.edit'
+import { Route as AppPortalTenantTenancyRouteImport } from './routes/app.portal.tenant.tenancy'
+import { Route as AppPortalTenantPaymentsRouteImport } from './routes/app.portal.tenant.payments'
+import { Route as AppPortalTenantMaintenanceRouteImport } from './routes/app.portal.tenant.maintenance'
+import { Route as AppPortalOwnerStatementsRouteImport } from './routes/app.portal.owner.statements'
+import { Route as AppPortalOwnerPortfolioRouteImport } from './routes/app.portal.owner.portfolio'
+import { Route as AppPortalContractorWorkOrdersRouteImport } from './routes/app.portal.contractor.work-orders'
+import { Route as AppPortalContractorQuotesRouteImport } from './routes/app.portal.contractor.quotes'
 
 const VerifyEmailRoute = VerifyEmailRouteImport.update({
   id: '/verify-email',
@@ -48,6 +75,11 @@ const RegisterRoute = RegisterRouteImport.update({
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlatformRoute = PlatformRouteImport.update({
+  id: '/platform',
+  path: '/platform',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -90,10 +122,35 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlatformIndexRoute = PlatformIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PlatformRoute,
+} as any)
+const CheckoutIndexRoute = CheckoutIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CheckoutRoute,
+} as any)
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppRoute,
+} as any)
+const PlatformSubscriptionsRoute = PlatformSubscriptionsRouteImport.update({
+  id: '/subscriptions',
+  path: '/subscriptions',
+  getParentRoute: () => PlatformRoute,
+} as any)
+const PlatformEventsRoute = PlatformEventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => PlatformRoute,
+} as any)
+const PlatformCustomersRoute = PlatformCustomersRouteImport.update({
+  id: '/customers',
+  path: '/customers',
+  getParentRoute: () => PlatformRoute,
 } as any)
 const CheckoutSuccessRoute = CheckoutSuccessRouteImport.update({
   id: '/success',
@@ -110,10 +167,75 @@ const AppPropertiesRoute = AppPropertiesRouteImport.update({
   path: '/properties',
   getParentRoute: () => AppRoute,
 } as any)
+const AppMaintenanceRoute = AppMaintenanceRouteImport.update({
+  id: '/maintenance',
+  path: '/maintenance',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppTenanciesIndexRoute = AppTenanciesIndexRouteImport.update({
+  id: '/tenancies/',
+  path: '/tenancies/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppStaffIndexRoute = AppStaffIndexRouteImport.update({
+  id: '/staff/',
+  path: '/staff/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSettingsIndexRoute = AppSettingsIndexRouteImport.update({
+  id: '/settings/',
+  path: '/settings/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppReportsIndexRoute = AppReportsIndexRouteImport.update({
+  id: '/reports/',
+  path: '/reports/',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppPropertiesIndexRoute = AppPropertiesIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppPropertiesRoute,
+} as any)
+const AppMessagesIndexRoute = AppMessagesIndexRouteImport.update({
+  id: '/messages/',
+  path: '/messages/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMaintenanceIndexRoute = AppMaintenanceIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppMaintenanceRoute,
+} as any)
+const AppInvoicesIndexRoute = AppInvoicesIndexRouteImport.update({
+  id: '/invoices/',
+  path: '/invoices/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDocumentsIndexRoute = AppDocumentsIndexRouteImport.update({
+  id: '/documents/',
+  path: '/documents/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppContactsIndexRoute = AppContactsIndexRouteImport.update({
+  id: '/contacts/',
+  path: '/contacts/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCalendarIndexRoute = AppCalendarIndexRouteImport.update({
+  id: '/calendar/',
+  path: '/calendar/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBranchesIndexRoute = AppBranchesIndexRouteImport.update({
+  id: '/branches/',
+  path: '/branches/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBillingIndexRoute = AppBillingIndexRouteImport.update({
+  id: '/billing/',
+  path: '/billing/',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppPropertiesNewRoute = AppPropertiesNewRouteImport.update({
   id: '/new',
@@ -125,11 +247,55 @@ const AppPropertiesIdRoute = AppPropertiesIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => AppPropertiesRoute,
 } as any)
+const AppMaintenanceIdRoute = AppMaintenanceIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AppMaintenanceRoute,
+} as any)
 const AppPropertiesIdEditRoute = AppPropertiesIdEditRouteImport.update({
   id: '/edit',
   path: '/edit',
   getParentRoute: () => AppPropertiesIdRoute,
 } as any)
+const AppPortalTenantTenancyRoute = AppPortalTenantTenancyRouteImport.update({
+  id: '/portal/tenant/tenancy',
+  path: '/portal/tenant/tenancy',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPortalTenantPaymentsRoute = AppPortalTenantPaymentsRouteImport.update({
+  id: '/portal/tenant/payments',
+  path: '/portal/tenant/payments',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPortalTenantMaintenanceRoute =
+  AppPortalTenantMaintenanceRouteImport.update({
+    id: '/portal/tenant/maintenance',
+    path: '/portal/tenant/maintenance',
+    getParentRoute: () => AppRoute,
+  } as any)
+const AppPortalOwnerStatementsRoute =
+  AppPortalOwnerStatementsRouteImport.update({
+    id: '/portal/owner/statements',
+    path: '/portal/owner/statements',
+    getParentRoute: () => AppRoute,
+  } as any)
+const AppPortalOwnerPortfolioRoute = AppPortalOwnerPortfolioRouteImport.update({
+  id: '/portal/owner/portfolio',
+  path: '/portal/owner/portfolio',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPortalContractorWorkOrdersRoute =
+  AppPortalContractorWorkOrdersRouteImport.update({
+    id: '/portal/contractor/work-orders',
+    path: '/portal/contractor/work-orders',
+    getParentRoute: () => AppRoute,
+  } as any)
+const AppPortalContractorQuotesRoute =
+  AppPortalContractorQuotesRouteImport.update({
+    id: '/portal/contractor/quotes',
+    path: '/portal/contractor/quotes',
+    getParentRoute: () => AppRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -140,22 +306,48 @@ export interface FileRoutesByFullPath {
   '/features': typeof FeaturesRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/platform': typeof PlatformRouteWithChildren
   '/pricing': typeof PricingRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/verify-email': typeof VerifyEmailRoute
+  '/app/maintenance': typeof AppMaintenanceRouteWithChildren
   '/app/properties': typeof AppPropertiesRouteWithChildren
   '/checkout/failed': typeof CheckoutFailedRoute
   '/checkout/success': typeof CheckoutSuccessRoute
+  '/platform/customers': typeof PlatformCustomersRoute
+  '/platform/events': typeof PlatformEventsRoute
+  '/platform/subscriptions': typeof PlatformSubscriptionsRoute
   '/app/': typeof AppIndexRoute
+  '/checkout/': typeof CheckoutIndexRoute
+  '/platform/': typeof PlatformIndexRoute
+  '/app/maintenance/$id': typeof AppMaintenanceIdRoute
   '/app/properties/$id': typeof AppPropertiesIdRouteWithChildren
   '/app/properties/new': typeof AppPropertiesNewRoute
+  '/app/billing/': typeof AppBillingIndexRoute
+  '/app/branches/': typeof AppBranchesIndexRoute
+  '/app/calendar/': typeof AppCalendarIndexRoute
+  '/app/contacts/': typeof AppContactsIndexRoute
+  '/app/documents/': typeof AppDocumentsIndexRoute
+  '/app/invoices/': typeof AppInvoicesIndexRoute
+  '/app/maintenance/': typeof AppMaintenanceIndexRoute
+  '/app/messages/': typeof AppMessagesIndexRoute
   '/app/properties/': typeof AppPropertiesIndexRoute
+  '/app/reports/': typeof AppReportsIndexRoute
+  '/app/settings/': typeof AppSettingsIndexRoute
+  '/app/staff/': typeof AppStaffIndexRoute
+  '/app/tenancies/': typeof AppTenanciesIndexRoute
+  '/app/portal/contractor/quotes': typeof AppPortalContractorQuotesRoute
+  '/app/portal/contractor/work-orders': typeof AppPortalContractorWorkOrdersRoute
+  '/app/portal/owner/portfolio': typeof AppPortalOwnerPortfolioRoute
+  '/app/portal/owner/statements': typeof AppPortalOwnerStatementsRoute
+  '/app/portal/tenant/maintenance': typeof AppPortalTenantMaintenanceRoute
+  '/app/portal/tenant/payments': typeof AppPortalTenantPaymentsRoute
+  '/app/portal/tenant/tenancy': typeof AppPortalTenantTenancyRoute
   '/app/properties/$id/edit': typeof AppPropertiesIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/checkout': typeof CheckoutRouteWithChildren
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/features': typeof FeaturesRoute
@@ -167,10 +359,35 @@ export interface FileRoutesByTo {
   '/verify-email': typeof VerifyEmailRoute
   '/checkout/failed': typeof CheckoutFailedRoute
   '/checkout/success': typeof CheckoutSuccessRoute
+  '/platform/customers': typeof PlatformCustomersRoute
+  '/platform/events': typeof PlatformEventsRoute
+  '/platform/subscriptions': typeof PlatformSubscriptionsRoute
   '/app': typeof AppIndexRoute
+  '/checkout': typeof CheckoutIndexRoute
+  '/platform': typeof PlatformIndexRoute
+  '/app/maintenance/$id': typeof AppMaintenanceIdRoute
   '/app/properties/$id': typeof AppPropertiesIdRouteWithChildren
   '/app/properties/new': typeof AppPropertiesNewRoute
+  '/app/billing': typeof AppBillingIndexRoute
+  '/app/branches': typeof AppBranchesIndexRoute
+  '/app/calendar': typeof AppCalendarIndexRoute
+  '/app/contacts': typeof AppContactsIndexRoute
+  '/app/documents': typeof AppDocumentsIndexRoute
+  '/app/invoices': typeof AppInvoicesIndexRoute
+  '/app/maintenance': typeof AppMaintenanceIndexRoute
+  '/app/messages': typeof AppMessagesIndexRoute
   '/app/properties': typeof AppPropertiesIndexRoute
+  '/app/reports': typeof AppReportsIndexRoute
+  '/app/settings': typeof AppSettingsIndexRoute
+  '/app/staff': typeof AppStaffIndexRoute
+  '/app/tenancies': typeof AppTenanciesIndexRoute
+  '/app/portal/contractor/quotes': typeof AppPortalContractorQuotesRoute
+  '/app/portal/contractor/work-orders': typeof AppPortalContractorWorkOrdersRoute
+  '/app/portal/owner/portfolio': typeof AppPortalOwnerPortfolioRoute
+  '/app/portal/owner/statements': typeof AppPortalOwnerStatementsRoute
+  '/app/portal/tenant/maintenance': typeof AppPortalTenantMaintenanceRoute
+  '/app/portal/tenant/payments': typeof AppPortalTenantPaymentsRoute
+  '/app/portal/tenant/tenancy': typeof AppPortalTenantTenancyRoute
   '/app/properties/$id/edit': typeof AppPropertiesIdEditRoute
 }
 export interface FileRoutesById {
@@ -183,17 +400,44 @@ export interface FileRoutesById {
   '/features': typeof FeaturesRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/platform': typeof PlatformRouteWithChildren
   '/pricing': typeof PricingRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/verify-email': typeof VerifyEmailRoute
+  '/app/maintenance': typeof AppMaintenanceRouteWithChildren
   '/app/properties': typeof AppPropertiesRouteWithChildren
   '/checkout/failed': typeof CheckoutFailedRoute
   '/checkout/success': typeof CheckoutSuccessRoute
+  '/platform/customers': typeof PlatformCustomersRoute
+  '/platform/events': typeof PlatformEventsRoute
+  '/platform/subscriptions': typeof PlatformSubscriptionsRoute
   '/app/': typeof AppIndexRoute
+  '/checkout/': typeof CheckoutIndexRoute
+  '/platform/': typeof PlatformIndexRoute
+  '/app/maintenance/$id': typeof AppMaintenanceIdRoute
   '/app/properties/$id': typeof AppPropertiesIdRouteWithChildren
   '/app/properties/new': typeof AppPropertiesNewRoute
+  '/app/billing/': typeof AppBillingIndexRoute
+  '/app/branches/': typeof AppBranchesIndexRoute
+  '/app/calendar/': typeof AppCalendarIndexRoute
+  '/app/contacts/': typeof AppContactsIndexRoute
+  '/app/documents/': typeof AppDocumentsIndexRoute
+  '/app/invoices/': typeof AppInvoicesIndexRoute
+  '/app/maintenance/': typeof AppMaintenanceIndexRoute
+  '/app/messages/': typeof AppMessagesIndexRoute
   '/app/properties/': typeof AppPropertiesIndexRoute
+  '/app/reports/': typeof AppReportsIndexRoute
+  '/app/settings/': typeof AppSettingsIndexRoute
+  '/app/staff/': typeof AppStaffIndexRoute
+  '/app/tenancies/': typeof AppTenanciesIndexRoute
+  '/app/portal/contractor/quotes': typeof AppPortalContractorQuotesRoute
+  '/app/portal/contractor/work-orders': typeof AppPortalContractorWorkOrdersRoute
+  '/app/portal/owner/portfolio': typeof AppPortalOwnerPortfolioRoute
+  '/app/portal/owner/statements': typeof AppPortalOwnerStatementsRoute
+  '/app/portal/tenant/maintenance': typeof AppPortalTenantMaintenanceRoute
+  '/app/portal/tenant/payments': typeof AppPortalTenantPaymentsRoute
+  '/app/portal/tenant/tenancy': typeof AppPortalTenantTenancyRoute
   '/app/properties/$id/edit': typeof AppPropertiesIdEditRoute
 }
 export interface FileRouteTypes {
@@ -207,22 +451,48 @@ export interface FileRouteTypes {
     | '/features'
     | '/forgot-password'
     | '/login'
+    | '/platform'
     | '/pricing'
     | '/register'
     | '/reset-password'
     | '/verify-email'
+    | '/app/maintenance'
     | '/app/properties'
     | '/checkout/failed'
     | '/checkout/success'
+    | '/platform/customers'
+    | '/platform/events'
+    | '/platform/subscriptions'
     | '/app/'
+    | '/checkout/'
+    | '/platform/'
+    | '/app/maintenance/$id'
     | '/app/properties/$id'
     | '/app/properties/new'
+    | '/app/billing/'
+    | '/app/branches/'
+    | '/app/calendar/'
+    | '/app/contacts/'
+    | '/app/documents/'
+    | '/app/invoices/'
+    | '/app/maintenance/'
+    | '/app/messages/'
     | '/app/properties/'
+    | '/app/reports/'
+    | '/app/settings/'
+    | '/app/staff/'
+    | '/app/tenancies/'
+    | '/app/portal/contractor/quotes'
+    | '/app/portal/contractor/work-orders'
+    | '/app/portal/owner/portfolio'
+    | '/app/portal/owner/statements'
+    | '/app/portal/tenant/maintenance'
+    | '/app/portal/tenant/payments'
+    | '/app/portal/tenant/tenancy'
     | '/app/properties/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/checkout'
     | '/contact'
     | '/faq'
     | '/features'
@@ -234,10 +504,35 @@ export interface FileRouteTypes {
     | '/verify-email'
     | '/checkout/failed'
     | '/checkout/success'
+    | '/platform/customers'
+    | '/platform/events'
+    | '/platform/subscriptions'
     | '/app'
+    | '/checkout'
+    | '/platform'
+    | '/app/maintenance/$id'
     | '/app/properties/$id'
     | '/app/properties/new'
+    | '/app/billing'
+    | '/app/branches'
+    | '/app/calendar'
+    | '/app/contacts'
+    | '/app/documents'
+    | '/app/invoices'
+    | '/app/maintenance'
+    | '/app/messages'
     | '/app/properties'
+    | '/app/reports'
+    | '/app/settings'
+    | '/app/staff'
+    | '/app/tenancies'
+    | '/app/portal/contractor/quotes'
+    | '/app/portal/contractor/work-orders'
+    | '/app/portal/owner/portfolio'
+    | '/app/portal/owner/statements'
+    | '/app/portal/tenant/maintenance'
+    | '/app/portal/tenant/payments'
+    | '/app/portal/tenant/tenancy'
     | '/app/properties/$id/edit'
   id:
     | '__root__'
@@ -249,17 +544,44 @@ export interface FileRouteTypes {
     | '/features'
     | '/forgot-password'
     | '/login'
+    | '/platform'
     | '/pricing'
     | '/register'
     | '/reset-password'
     | '/verify-email'
+    | '/app/maintenance'
     | '/app/properties'
     | '/checkout/failed'
     | '/checkout/success'
+    | '/platform/customers'
+    | '/platform/events'
+    | '/platform/subscriptions'
     | '/app/'
+    | '/checkout/'
+    | '/platform/'
+    | '/app/maintenance/$id'
     | '/app/properties/$id'
     | '/app/properties/new'
+    | '/app/billing/'
+    | '/app/branches/'
+    | '/app/calendar/'
+    | '/app/contacts/'
+    | '/app/documents/'
+    | '/app/invoices/'
+    | '/app/maintenance/'
+    | '/app/messages/'
     | '/app/properties/'
+    | '/app/reports/'
+    | '/app/settings/'
+    | '/app/staff/'
+    | '/app/tenancies/'
+    | '/app/portal/contractor/quotes'
+    | '/app/portal/contractor/work-orders'
+    | '/app/portal/owner/portfolio'
+    | '/app/portal/owner/statements'
+    | '/app/portal/tenant/maintenance'
+    | '/app/portal/tenant/payments'
+    | '/app/portal/tenant/tenancy'
     | '/app/properties/$id/edit'
   fileRoutesById: FileRoutesById
 }
@@ -272,6 +594,7 @@ export interface RootRouteChildren {
   FeaturesRoute: typeof FeaturesRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
+  PlatformRoute: typeof PlatformRouteWithChildren
   PricingRoute: typeof PricingRoute
   RegisterRoute: typeof RegisterRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
@@ -306,6 +629,13 @@ declare module '@tanstack/react-router' {
       path: '/pricing'
       fullPath: '/pricing'
       preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/platform': {
+      id: '/platform'
+      path: '/platform'
+      fullPath: '/platform'
+      preLoaderRoute: typeof PlatformRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -364,12 +694,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/platform/': {
+      id: '/platform/'
+      path: '/'
+      fullPath: '/platform/'
+      preLoaderRoute: typeof PlatformIndexRouteImport
+      parentRoute: typeof PlatformRoute
+    }
+    '/checkout/': {
+      id: '/checkout/'
+      path: '/'
+      fullPath: '/checkout/'
+      preLoaderRoute: typeof CheckoutIndexRouteImport
+      parentRoute: typeof CheckoutRoute
+    }
     '/app/': {
       id: '/app/'
       path: '/'
       fullPath: '/app/'
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/platform/subscriptions': {
+      id: '/platform/subscriptions'
+      path: '/subscriptions'
+      fullPath: '/platform/subscriptions'
+      preLoaderRoute: typeof PlatformSubscriptionsRouteImport
+      parentRoute: typeof PlatformRoute
+    }
+    '/platform/events': {
+      id: '/platform/events'
+      path: '/events'
+      fullPath: '/platform/events'
+      preLoaderRoute: typeof PlatformEventsRouteImport
+      parentRoute: typeof PlatformRoute
+    }
+    '/platform/customers': {
+      id: '/platform/customers'
+      path: '/customers'
+      fullPath: '/platform/customers'
+      preLoaderRoute: typeof PlatformCustomersRouteImport
+      parentRoute: typeof PlatformRoute
     }
     '/checkout/success': {
       id: '/checkout/success'
@@ -392,12 +757,103 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPropertiesRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/maintenance': {
+      id: '/app/maintenance'
+      path: '/maintenance'
+      fullPath: '/app/maintenance'
+      preLoaderRoute: typeof AppMaintenanceRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/tenancies/': {
+      id: '/app/tenancies/'
+      path: '/tenancies'
+      fullPath: '/app/tenancies/'
+      preLoaderRoute: typeof AppTenanciesIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/staff/': {
+      id: '/app/staff/'
+      path: '/staff'
+      fullPath: '/app/staff/'
+      preLoaderRoute: typeof AppStaffIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/settings/': {
+      id: '/app/settings/'
+      path: '/settings'
+      fullPath: '/app/settings/'
+      preLoaderRoute: typeof AppSettingsIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/reports/': {
+      id: '/app/reports/'
+      path: '/reports'
+      fullPath: '/app/reports/'
+      preLoaderRoute: typeof AppReportsIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/properties/': {
       id: '/app/properties/'
       path: '/'
       fullPath: '/app/properties/'
       preLoaderRoute: typeof AppPropertiesIndexRouteImport
       parentRoute: typeof AppPropertiesRoute
+    }
+    '/app/messages/': {
+      id: '/app/messages/'
+      path: '/messages'
+      fullPath: '/app/messages/'
+      preLoaderRoute: typeof AppMessagesIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/maintenance/': {
+      id: '/app/maintenance/'
+      path: '/'
+      fullPath: '/app/maintenance/'
+      preLoaderRoute: typeof AppMaintenanceIndexRouteImport
+      parentRoute: typeof AppMaintenanceRoute
+    }
+    '/app/invoices/': {
+      id: '/app/invoices/'
+      path: '/invoices'
+      fullPath: '/app/invoices/'
+      preLoaderRoute: typeof AppInvoicesIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/documents/': {
+      id: '/app/documents/'
+      path: '/documents'
+      fullPath: '/app/documents/'
+      preLoaderRoute: typeof AppDocumentsIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/contacts/': {
+      id: '/app/contacts/'
+      path: '/contacts'
+      fullPath: '/app/contacts/'
+      preLoaderRoute: typeof AppContactsIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/calendar/': {
+      id: '/app/calendar/'
+      path: '/calendar'
+      fullPath: '/app/calendar/'
+      preLoaderRoute: typeof AppCalendarIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/branches/': {
+      id: '/app/branches/'
+      path: '/branches'
+      fullPath: '/app/branches/'
+      preLoaderRoute: typeof AppBranchesIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/billing/': {
+      id: '/app/billing/'
+      path: '/billing'
+      fullPath: '/app/billing/'
+      preLoaderRoute: typeof AppBillingIndexRouteImport
+      parentRoute: typeof AppRoute
     }
     '/app/properties/new': {
       id: '/app/properties/new'
@@ -413,6 +869,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPropertiesIdRouteImport
       parentRoute: typeof AppPropertiesRoute
     }
+    '/app/maintenance/$id': {
+      id: '/app/maintenance/$id'
+      path: '/$id'
+      fullPath: '/app/maintenance/$id'
+      preLoaderRoute: typeof AppMaintenanceIdRouteImport
+      parentRoute: typeof AppMaintenanceRoute
+    }
     '/app/properties/$id/edit': {
       id: '/app/properties/$id/edit'
       path: '/edit'
@@ -420,8 +883,71 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPropertiesIdEditRouteImport
       parentRoute: typeof AppPropertiesIdRoute
     }
+    '/app/portal/tenant/tenancy': {
+      id: '/app/portal/tenant/tenancy'
+      path: '/portal/tenant/tenancy'
+      fullPath: '/app/portal/tenant/tenancy'
+      preLoaderRoute: typeof AppPortalTenantTenancyRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/portal/tenant/payments': {
+      id: '/app/portal/tenant/payments'
+      path: '/portal/tenant/payments'
+      fullPath: '/app/portal/tenant/payments'
+      preLoaderRoute: typeof AppPortalTenantPaymentsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/portal/tenant/maintenance': {
+      id: '/app/portal/tenant/maintenance'
+      path: '/portal/tenant/maintenance'
+      fullPath: '/app/portal/tenant/maintenance'
+      preLoaderRoute: typeof AppPortalTenantMaintenanceRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/portal/owner/statements': {
+      id: '/app/portal/owner/statements'
+      path: '/portal/owner/statements'
+      fullPath: '/app/portal/owner/statements'
+      preLoaderRoute: typeof AppPortalOwnerStatementsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/portal/owner/portfolio': {
+      id: '/app/portal/owner/portfolio'
+      path: '/portal/owner/portfolio'
+      fullPath: '/app/portal/owner/portfolio'
+      preLoaderRoute: typeof AppPortalOwnerPortfolioRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/portal/contractor/work-orders': {
+      id: '/app/portal/contractor/work-orders'
+      path: '/portal/contractor/work-orders'
+      fullPath: '/app/portal/contractor/work-orders'
+      preLoaderRoute: typeof AppPortalContractorWorkOrdersRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/portal/contractor/quotes': {
+      id: '/app/portal/contractor/quotes'
+      path: '/portal/contractor/quotes'
+      fullPath: '/app/portal/contractor/quotes'
+      preLoaderRoute: typeof AppPortalContractorQuotesRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
+
+interface AppMaintenanceRouteChildren {
+  AppMaintenanceIdRoute: typeof AppMaintenanceIdRoute
+  AppMaintenanceIndexRoute: typeof AppMaintenanceIndexRoute
+}
+
+const AppMaintenanceRouteChildren: AppMaintenanceRouteChildren = {
+  AppMaintenanceIdRoute: AppMaintenanceIdRoute,
+  AppMaintenanceIndexRoute: AppMaintenanceIndexRoute,
+}
+
+const AppMaintenanceRouteWithChildren = AppMaintenanceRoute._addFileChildren(
+  AppMaintenanceRouteChildren,
+)
 
 interface AppPropertiesIdRouteChildren {
   AppPropertiesIdEditRoute: typeof AppPropertiesIdEditRoute
@@ -452,13 +978,51 @@ const AppPropertiesRouteWithChildren = AppPropertiesRoute._addFileChildren(
 )
 
 interface AppRouteChildren {
+  AppMaintenanceRoute: typeof AppMaintenanceRouteWithChildren
   AppPropertiesRoute: typeof AppPropertiesRouteWithChildren
   AppIndexRoute: typeof AppIndexRoute
+  AppBillingIndexRoute: typeof AppBillingIndexRoute
+  AppBranchesIndexRoute: typeof AppBranchesIndexRoute
+  AppCalendarIndexRoute: typeof AppCalendarIndexRoute
+  AppContactsIndexRoute: typeof AppContactsIndexRoute
+  AppDocumentsIndexRoute: typeof AppDocumentsIndexRoute
+  AppInvoicesIndexRoute: typeof AppInvoicesIndexRoute
+  AppMessagesIndexRoute: typeof AppMessagesIndexRoute
+  AppReportsIndexRoute: typeof AppReportsIndexRoute
+  AppSettingsIndexRoute: typeof AppSettingsIndexRoute
+  AppStaffIndexRoute: typeof AppStaffIndexRoute
+  AppTenanciesIndexRoute: typeof AppTenanciesIndexRoute
+  AppPortalContractorQuotesRoute: typeof AppPortalContractorQuotesRoute
+  AppPortalContractorWorkOrdersRoute: typeof AppPortalContractorWorkOrdersRoute
+  AppPortalOwnerPortfolioRoute: typeof AppPortalOwnerPortfolioRoute
+  AppPortalOwnerStatementsRoute: typeof AppPortalOwnerStatementsRoute
+  AppPortalTenantMaintenanceRoute: typeof AppPortalTenantMaintenanceRoute
+  AppPortalTenantPaymentsRoute: typeof AppPortalTenantPaymentsRoute
+  AppPortalTenantTenancyRoute: typeof AppPortalTenantTenancyRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppMaintenanceRoute: AppMaintenanceRouteWithChildren,
   AppPropertiesRoute: AppPropertiesRouteWithChildren,
   AppIndexRoute: AppIndexRoute,
+  AppBillingIndexRoute: AppBillingIndexRoute,
+  AppBranchesIndexRoute: AppBranchesIndexRoute,
+  AppCalendarIndexRoute: AppCalendarIndexRoute,
+  AppContactsIndexRoute: AppContactsIndexRoute,
+  AppDocumentsIndexRoute: AppDocumentsIndexRoute,
+  AppInvoicesIndexRoute: AppInvoicesIndexRoute,
+  AppMessagesIndexRoute: AppMessagesIndexRoute,
+  AppReportsIndexRoute: AppReportsIndexRoute,
+  AppSettingsIndexRoute: AppSettingsIndexRoute,
+  AppStaffIndexRoute: AppStaffIndexRoute,
+  AppTenanciesIndexRoute: AppTenanciesIndexRoute,
+  AppPortalContractorQuotesRoute: AppPortalContractorQuotesRoute,
+  AppPortalContractorWorkOrdersRoute: AppPortalContractorWorkOrdersRoute,
+  AppPortalOwnerPortfolioRoute: AppPortalOwnerPortfolioRoute,
+  AppPortalOwnerStatementsRoute: AppPortalOwnerStatementsRoute,
+  AppPortalTenantMaintenanceRoute: AppPortalTenantMaintenanceRoute,
+  AppPortalTenantPaymentsRoute: AppPortalTenantPaymentsRoute,
+  AppPortalTenantTenancyRoute: AppPortalTenantTenancyRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
@@ -466,15 +1030,35 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 interface CheckoutRouteChildren {
   CheckoutFailedRoute: typeof CheckoutFailedRoute
   CheckoutSuccessRoute: typeof CheckoutSuccessRoute
+  CheckoutIndexRoute: typeof CheckoutIndexRoute
 }
 
 const CheckoutRouteChildren: CheckoutRouteChildren = {
   CheckoutFailedRoute: CheckoutFailedRoute,
   CheckoutSuccessRoute: CheckoutSuccessRoute,
+  CheckoutIndexRoute: CheckoutIndexRoute,
 }
 
 const CheckoutRouteWithChildren = CheckoutRoute._addFileChildren(
   CheckoutRouteChildren,
+)
+
+interface PlatformRouteChildren {
+  PlatformCustomersRoute: typeof PlatformCustomersRoute
+  PlatformEventsRoute: typeof PlatformEventsRoute
+  PlatformSubscriptionsRoute: typeof PlatformSubscriptionsRoute
+  PlatformIndexRoute: typeof PlatformIndexRoute
+}
+
+const PlatformRouteChildren: PlatformRouteChildren = {
+  PlatformCustomersRoute: PlatformCustomersRoute,
+  PlatformEventsRoute: PlatformEventsRoute,
+  PlatformSubscriptionsRoute: PlatformSubscriptionsRoute,
+  PlatformIndexRoute: PlatformIndexRoute,
+}
+
+const PlatformRouteWithChildren = PlatformRoute._addFileChildren(
+  PlatformRouteChildren,
 )
 
 const rootRouteChildren: RootRouteChildren = {
@@ -486,6 +1070,7 @@ const rootRouteChildren: RootRouteChildren = {
   FeaturesRoute: FeaturesRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
+  PlatformRoute: PlatformRouteWithChildren,
   PricingRoute: PricingRoute,
   RegisterRoute: RegisterRoute,
   ResetPasswordRoute: ResetPasswordRoute,

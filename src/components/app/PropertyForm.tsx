@@ -37,7 +37,7 @@ interface Props {
 }
 
 export function PropertyForm({ initial, submitLabel, onCancel, onSubmit, showAgencyFields }: Props) {
-  const { branches, staff, contacts, activeWorkspace } = useProto();
+  const { branches, staffList: staff, contacts, activeWorkspace } = useProto();
   const wsBranches = branches.filter((b) => b.workspaceId === activeWorkspace.id);
   const wsStaff = staff.filter((s) => s.workspaceId === activeWorkspace.id);
   const wsOwners = contacts.filter((c) => c.workspaceId === activeWorkspace.id && c.kind === "owner");
