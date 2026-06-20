@@ -26,7 +26,10 @@ import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as CheckoutSuccessRouteImport } from './routes/checkout.success'
 import { Route as CheckoutFailedRouteImport } from './routes/checkout.failed'
 import { Route as AppPropertiesRouteImport } from './routes/app.properties'
+import { Route as AppTenanciesIndexRouteImport } from './routes/app.tenancies.index'
 import { Route as AppPropertiesIndexRouteImport } from './routes/app.properties.index'
+import { Route as AppInvoicesIndexRouteImport } from './routes/app.invoices.index'
+import { Route as AppContactsIndexRouteImport } from './routes/app.contacts.index'
 import { Route as AppPropertiesNewRouteImport } from './routes/app.properties.new'
 import { Route as AppPropertiesIdRouteImport } from './routes/app.properties.$id'
 import { Route as AppPropertiesIdEditRouteImport } from './routes/app.properties.$id.edit'
@@ -116,10 +119,25 @@ const AppPropertiesRoute = AppPropertiesRouteImport.update({
   path: '/properties',
   getParentRoute: () => AppRoute,
 } as any)
+const AppTenanciesIndexRoute = AppTenanciesIndexRouteImport.update({
+  id: '/tenancies/',
+  path: '/tenancies/',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppPropertiesIndexRoute = AppPropertiesIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppPropertiesRoute,
+} as any)
+const AppInvoicesIndexRoute = AppInvoicesIndexRouteImport.update({
+  id: '/invoices/',
+  path: '/invoices/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppContactsIndexRoute = AppContactsIndexRouteImport.update({
+  id: '/contacts/',
+  path: '/contacts/',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppPropertiesNewRoute = AppPropertiesNewRouteImport.update({
   id: '/new',
@@ -157,7 +175,10 @@ export interface FileRoutesByFullPath {
   '/checkout/': typeof CheckoutIndexRoute
   '/app/properties/$id': typeof AppPropertiesIdRouteWithChildren
   '/app/properties/new': typeof AppPropertiesNewRoute
+  '/app/contacts/': typeof AppContactsIndexRoute
+  '/app/invoices/': typeof AppInvoicesIndexRoute
   '/app/properties/': typeof AppPropertiesIndexRoute
+  '/app/tenancies/': typeof AppTenanciesIndexRoute
   '/app/properties/$id/edit': typeof AppPropertiesIdEditRoute
 }
 export interface FileRoutesByTo {
@@ -177,7 +198,10 @@ export interface FileRoutesByTo {
   '/checkout': typeof CheckoutIndexRoute
   '/app/properties/$id': typeof AppPropertiesIdRouteWithChildren
   '/app/properties/new': typeof AppPropertiesNewRoute
+  '/app/contacts': typeof AppContactsIndexRoute
+  '/app/invoices': typeof AppInvoicesIndexRoute
   '/app/properties': typeof AppPropertiesIndexRoute
+  '/app/tenancies': typeof AppTenanciesIndexRoute
   '/app/properties/$id/edit': typeof AppPropertiesIdEditRoute
 }
 export interface FileRoutesById {
@@ -201,7 +225,10 @@ export interface FileRoutesById {
   '/checkout/': typeof CheckoutIndexRoute
   '/app/properties/$id': typeof AppPropertiesIdRouteWithChildren
   '/app/properties/new': typeof AppPropertiesNewRoute
+  '/app/contacts/': typeof AppContactsIndexRoute
+  '/app/invoices/': typeof AppInvoicesIndexRoute
   '/app/properties/': typeof AppPropertiesIndexRoute
+  '/app/tenancies/': typeof AppTenanciesIndexRoute
   '/app/properties/$id/edit': typeof AppPropertiesIdEditRoute
 }
 export interface FileRouteTypes {
@@ -226,7 +253,10 @@ export interface FileRouteTypes {
     | '/checkout/'
     | '/app/properties/$id'
     | '/app/properties/new'
+    | '/app/contacts/'
+    | '/app/invoices/'
     | '/app/properties/'
+    | '/app/tenancies/'
     | '/app/properties/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -246,7 +276,10 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/app/properties/$id'
     | '/app/properties/new'
+    | '/app/contacts'
+    | '/app/invoices'
     | '/app/properties'
+    | '/app/tenancies'
     | '/app/properties/$id/edit'
   id:
     | '__root__'
@@ -269,7 +302,10 @@ export interface FileRouteTypes {
     | '/checkout/'
     | '/app/properties/$id'
     | '/app/properties/new'
+    | '/app/contacts/'
+    | '/app/invoices/'
     | '/app/properties/'
+    | '/app/tenancies/'
     | '/app/properties/$id/edit'
   fileRoutesById: FileRoutesById
 }
@@ -409,12 +445,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPropertiesRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/tenancies/': {
+      id: '/app/tenancies/'
+      path: '/tenancies'
+      fullPath: '/app/tenancies/'
+      preLoaderRoute: typeof AppTenanciesIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/properties/': {
       id: '/app/properties/'
       path: '/'
       fullPath: '/app/properties/'
       preLoaderRoute: typeof AppPropertiesIndexRouteImport
       parentRoute: typeof AppPropertiesRoute
+    }
+    '/app/invoices/': {
+      id: '/app/invoices/'
+      path: '/invoices'
+      fullPath: '/app/invoices/'
+      preLoaderRoute: typeof AppInvoicesIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/contacts/': {
+      id: '/app/contacts/'
+      path: '/contacts'
+      fullPath: '/app/contacts/'
+      preLoaderRoute: typeof AppContactsIndexRouteImport
+      parentRoute: typeof AppRoute
     }
     '/app/properties/new': {
       id: '/app/properties/new'
@@ -471,11 +528,17 @@ const AppPropertiesRouteWithChildren = AppPropertiesRoute._addFileChildren(
 interface AppRouteChildren {
   AppPropertiesRoute: typeof AppPropertiesRouteWithChildren
   AppIndexRoute: typeof AppIndexRoute
+  AppContactsIndexRoute: typeof AppContactsIndexRoute
+  AppInvoicesIndexRoute: typeof AppInvoicesIndexRoute
+  AppTenanciesIndexRoute: typeof AppTenanciesIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppPropertiesRoute: AppPropertiesRouteWithChildren,
   AppIndexRoute: AppIndexRoute,
+  AppContactsIndexRoute: AppContactsIndexRoute,
+  AppInvoicesIndexRoute: AppInvoicesIndexRoute,
+  AppTenanciesIndexRoute: AppTenanciesIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
