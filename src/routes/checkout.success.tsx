@@ -42,14 +42,14 @@ function SuccessPage() {
             </div>
             <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
               <Button asChild size="lg" className="bg-teal hover:bg-teal/90 text-teal-foreground">
-                <Link to="/">Go to dashboard <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                <Link to="/app">Go to dashboard <ArrowRight className="ml-2 h-4 w-4" /></Link>
               </Button>
               <Button asChild size="lg" variant="outline">
                 <Link to="/pricing">Review plan</Link>
               </Button>
             </div>
             <p className="text-xs text-muted-foreground pt-2">
-              The dashboard and in-app workflows arrive in Phase 2. For now use the floating <strong>Demo role</strong> switcher to preview which persona you&apos;ll land as.
+              Use the floating <strong>Demo role</strong> switcher to preview every persona, including portals for tenants, contractors and owners.
             </p>
           </CardContent>
         </Card>

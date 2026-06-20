@@ -13,6 +13,7 @@ import { Route as VerifyEmailRouteImport } from './routes/verify-email'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as PlatformRouteImport } from './routes/platform'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as FeaturesRouteImport } from './routes/features'
@@ -21,8 +22,12 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PlatformIndexRouteImport } from './routes/platform.index'
 import { Route as CheckoutIndexRouteImport } from './routes/checkout.index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as PlatformSubscriptionsRouteImport } from './routes/platform.subscriptions'
+import { Route as PlatformEventsRouteImport } from './routes/platform.events'
+import { Route as PlatformCustomersRouteImport } from './routes/platform.customers'
 import { Route as CheckoutSuccessRouteImport } from './routes/checkout.success'
 import { Route as CheckoutFailedRouteImport } from './routes/checkout.failed'
 import { Route as AppPropertiesRouteImport } from './routes/app.properties'
@@ -72,6 +77,11 @@ const PricingRoute = PricingRouteImport.update({
   path: '/pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlatformRoute = PlatformRouteImport.update({
+  id: '/platform',
+  path: '/platform',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -112,6 +122,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlatformIndexRoute = PlatformIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PlatformRoute,
+} as any)
 const CheckoutIndexRoute = CheckoutIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -121,6 +136,21 @@ const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppRoute,
+} as any)
+const PlatformSubscriptionsRoute = PlatformSubscriptionsRouteImport.update({
+  id: '/subscriptions',
+  path: '/subscriptions',
+  getParentRoute: () => PlatformRoute,
+} as any)
+const PlatformEventsRoute = PlatformEventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => PlatformRoute,
+} as any)
+const PlatformCustomersRoute = PlatformCustomersRouteImport.update({
+  id: '/customers',
+  path: '/customers',
+  getParentRoute: () => PlatformRoute,
 } as any)
 const CheckoutSuccessRoute = CheckoutSuccessRouteImport.update({
   id: '/success',
@@ -276,6 +306,7 @@ export interface FileRoutesByFullPath {
   '/features': typeof FeaturesRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/platform': typeof PlatformRouteWithChildren
   '/pricing': typeof PricingRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -284,8 +315,12 @@ export interface FileRoutesByFullPath {
   '/app/properties': typeof AppPropertiesRouteWithChildren
   '/checkout/failed': typeof CheckoutFailedRoute
   '/checkout/success': typeof CheckoutSuccessRoute
+  '/platform/customers': typeof PlatformCustomersRoute
+  '/platform/events': typeof PlatformEventsRoute
+  '/platform/subscriptions': typeof PlatformSubscriptionsRoute
   '/app/': typeof AppIndexRoute
   '/checkout/': typeof CheckoutIndexRoute
+  '/platform/': typeof PlatformIndexRoute
   '/app/maintenance/$id': typeof AppMaintenanceIdRoute
   '/app/properties/$id': typeof AppPropertiesIdRouteWithChildren
   '/app/properties/new': typeof AppPropertiesNewRoute
@@ -324,8 +359,12 @@ export interface FileRoutesByTo {
   '/verify-email': typeof VerifyEmailRoute
   '/checkout/failed': typeof CheckoutFailedRoute
   '/checkout/success': typeof CheckoutSuccessRoute
+  '/platform/customers': typeof PlatformCustomersRoute
+  '/platform/events': typeof PlatformEventsRoute
+  '/platform/subscriptions': typeof PlatformSubscriptionsRoute
   '/app': typeof AppIndexRoute
   '/checkout': typeof CheckoutIndexRoute
+  '/platform': typeof PlatformIndexRoute
   '/app/maintenance/$id': typeof AppMaintenanceIdRoute
   '/app/properties/$id': typeof AppPropertiesIdRouteWithChildren
   '/app/properties/new': typeof AppPropertiesNewRoute
@@ -361,6 +400,7 @@ export interface FileRoutesById {
   '/features': typeof FeaturesRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/platform': typeof PlatformRouteWithChildren
   '/pricing': typeof PricingRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -369,8 +409,12 @@ export interface FileRoutesById {
   '/app/properties': typeof AppPropertiesRouteWithChildren
   '/checkout/failed': typeof CheckoutFailedRoute
   '/checkout/success': typeof CheckoutSuccessRoute
+  '/platform/customers': typeof PlatformCustomersRoute
+  '/platform/events': typeof PlatformEventsRoute
+  '/platform/subscriptions': typeof PlatformSubscriptionsRoute
   '/app/': typeof AppIndexRoute
   '/checkout/': typeof CheckoutIndexRoute
+  '/platform/': typeof PlatformIndexRoute
   '/app/maintenance/$id': typeof AppMaintenanceIdRoute
   '/app/properties/$id': typeof AppPropertiesIdRouteWithChildren
   '/app/properties/new': typeof AppPropertiesNewRoute
@@ -407,6 +451,7 @@ export interface FileRouteTypes {
     | '/features'
     | '/forgot-password'
     | '/login'
+    | '/platform'
     | '/pricing'
     | '/register'
     | '/reset-password'
@@ -415,8 +460,12 @@ export interface FileRouteTypes {
     | '/app/properties'
     | '/checkout/failed'
     | '/checkout/success'
+    | '/platform/customers'
+    | '/platform/events'
+    | '/platform/subscriptions'
     | '/app/'
     | '/checkout/'
+    | '/platform/'
     | '/app/maintenance/$id'
     | '/app/properties/$id'
     | '/app/properties/new'
@@ -455,8 +504,12 @@ export interface FileRouteTypes {
     | '/verify-email'
     | '/checkout/failed'
     | '/checkout/success'
+    | '/platform/customers'
+    | '/platform/events'
+    | '/platform/subscriptions'
     | '/app'
     | '/checkout'
+    | '/platform'
     | '/app/maintenance/$id'
     | '/app/properties/$id'
     | '/app/properties/new'
@@ -491,6 +544,7 @@ export interface FileRouteTypes {
     | '/features'
     | '/forgot-password'
     | '/login'
+    | '/platform'
     | '/pricing'
     | '/register'
     | '/reset-password'
@@ -499,8 +553,12 @@ export interface FileRouteTypes {
     | '/app/properties'
     | '/checkout/failed'
     | '/checkout/success'
+    | '/platform/customers'
+    | '/platform/events'
+    | '/platform/subscriptions'
     | '/app/'
     | '/checkout/'
+    | '/platform/'
     | '/app/maintenance/$id'
     | '/app/properties/$id'
     | '/app/properties/new'
@@ -536,6 +594,7 @@ export interface RootRouteChildren {
   FeaturesRoute: typeof FeaturesRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
+  PlatformRoute: typeof PlatformRouteWithChildren
   PricingRoute: typeof PricingRoute
   RegisterRoute: typeof RegisterRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
@@ -570,6 +629,13 @@ declare module '@tanstack/react-router' {
       path: '/pricing'
       fullPath: '/pricing'
       preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/platform': {
+      id: '/platform'
+      path: '/platform'
+      fullPath: '/platform'
+      preLoaderRoute: typeof PlatformRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -628,6 +694,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/platform/': {
+      id: '/platform/'
+      path: '/'
+      fullPath: '/platform/'
+      preLoaderRoute: typeof PlatformIndexRouteImport
+      parentRoute: typeof PlatformRoute
+    }
     '/checkout/': {
       id: '/checkout/'
       path: '/'
@@ -641,6 +714,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/'
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/platform/subscriptions': {
+      id: '/platform/subscriptions'
+      path: '/subscriptions'
+      fullPath: '/platform/subscriptions'
+      preLoaderRoute: typeof PlatformSubscriptionsRouteImport
+      parentRoute: typeof PlatformRoute
+    }
+    '/platform/events': {
+      id: '/platform/events'
+      path: '/events'
+      fullPath: '/platform/events'
+      preLoaderRoute: typeof PlatformEventsRouteImport
+      parentRoute: typeof PlatformRoute
+    }
+    '/platform/customers': {
+      id: '/platform/customers'
+      path: '/customers'
+      fullPath: '/platform/customers'
+      preLoaderRoute: typeof PlatformCustomersRouteImport
+      parentRoute: typeof PlatformRoute
     }
     '/checkout/success': {
       id: '/checkout/success'
@@ -949,6 +1043,24 @@ const CheckoutRouteWithChildren = CheckoutRoute._addFileChildren(
   CheckoutRouteChildren,
 )
 
+interface PlatformRouteChildren {
+  PlatformCustomersRoute: typeof PlatformCustomersRoute
+  PlatformEventsRoute: typeof PlatformEventsRoute
+  PlatformSubscriptionsRoute: typeof PlatformSubscriptionsRoute
+  PlatformIndexRoute: typeof PlatformIndexRoute
+}
+
+const PlatformRouteChildren: PlatformRouteChildren = {
+  PlatformCustomersRoute: PlatformCustomersRoute,
+  PlatformEventsRoute: PlatformEventsRoute,
+  PlatformSubscriptionsRoute: PlatformSubscriptionsRoute,
+  PlatformIndexRoute: PlatformIndexRoute,
+}
+
+const PlatformRouteWithChildren = PlatformRoute._addFileChildren(
+  PlatformRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
@@ -958,6 +1070,7 @@ const rootRouteChildren: RootRouteChildren = {
   FeaturesRoute: FeaturesRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
+  PlatformRoute: PlatformRouteWithChildren,
   PricingRoute: PricingRoute,
   RegisterRoute: RegisterRoute,
   ResetPasswordRoute: ResetPasswordRoute,
