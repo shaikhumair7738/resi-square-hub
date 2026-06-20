@@ -20,7 +20,7 @@ const search = z.object({
   interval: z.enum(["monthly", "annual"]).default("monthly"),
 });
 
-export const Route = createFileRoute("/checkout")({
+export const Route = createFileRoute("/checkout/")({
   head: () => ({ meta: [{ title: "Checkout — Resisquare (Simulated)" }, { name: "robots", content: "noindex" }] }),
   validateSearch: search,
   component: CheckoutPage,
