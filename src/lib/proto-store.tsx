@@ -271,6 +271,85 @@ export function ProtoProvider({ children }: { children: ReactNode }) {
     }));
   }, []);
 
+  const recordPayment = useCallback<ProtoContextValue["recordPayment"]>((invoiceId, amount, method, reference) => {
+    setState((s) => {
+      const inv = s.invoices.find((i) => i.id === invoiceId);
+      if (!inv) return s;
+      const newPaid = Math.min(inv.amount, inv.paid + amount);
+      const status: Invoice["status"] = newPaid >= inv.amount ? "paid" : newPaid > 0 ? "part_paid" : inv.status;
+      const payment: Payment = { id: `pm-${Math.random().toString(36).slice(2, 9)}`, invoiceId, amount, method, reference, date: new Date().toISOString() };
+      return {
+        ...s,
+        payments: [payment, ...s.payments],
+        invoices: s.invoices.map((i) => (i.id === invoiceId ? { ...i, paid: newPaid, status } : i)),
+      };
+    });
+  }, []);
+
+  const createTicket = useCallback<ProtoContextValue["createTicket"]>((t) => {
+    const ticket: MaintenanceTicket = { ...t, id: `tk-${Math.random().toString(36).slice(2, 9)}`, reportedAt: new Date().toISOString(), status: "open" };
+    setState((s) => ({ ...s, tickets: [ticket, ...s.tickets] }));
+    return ticket;
+  }, []);
+
+  const setTicketStatus = useCallback((id: string, status: TicketStatus) => {
+    setState((s) => ({ ...s, tickets: s.tickets.map((t) => (t.id === id ? { ...t, status } : t)) }));
+  }, []);
+
+  const assignContractor = useCallback((ticketId: string, contractorContactId: string) => {
+    setState((s) => ({
+      ...s,
+      tickets: s.tickets.map((t) => (t.id === ticketId ? { ...t, assignedContractorId: contractorContactId, status: t.status === "open" ? "quoting" : t.status } : t)),
+    }));
+  }, []);
+
+  const addQuote = useCallback<ProtoContextValue["addQuote"]>((q) => {
+    const quote: Quote = { ...q, id: `q-${Math.random().toString(36).slice(2, 9)}`, status: "pending", submittedAt: new Date().toISOString() };
+    setState((s) => ({ ...s, quotes: [quote, ...s.quotes], tickets: s.tickets.map((t) => (t.id === q.ticketId && t.status === "open" ? { ...t, status: "quoting" } : t)) }));
+    return quote;
+  }, []);
+
+  const acceptQuote = useCallback((quoteId: string, scheduledFor: string) => {
+    setState((s) => {
+      const q = s.quotes.find((x) => x.id === quoteId);
+      if (!q) return s;
+      const woId = `wo-${Math.random().toString(36).slice(2, 9)}`;
+      const wo: WorkOrder = { id: woId, ticketId: q.ticketId, quoteId, contractorContactId: q.contractorContactId, scheduledFor, status: "scheduled" };
+      return {
+        ...s,
+        quotes: s.quotes.map((x) => (x.ticketId === q.ticketId ? { ...x, status: x.id === quoteId ? "accepted" : "declined" } : x)),
+        workOrders: [wo, ...s.workOrders],
+        tickets: s.tickets.map((t) => (t.id === q.ticketId ? { ...t, status: "scheduled", workOrderId: woId, assignedContractorId: q.contractorContactId } : t)),
+      };
+    });
+  }, []);
+
+  const markWorkOrderComplete = useCallback((id: string) => {
+    setState((s) => {
+      const wo = s.workOrders.find((x) => x.id === id);
+      if (!wo) return s;
+      return {
+        ...s,
+        workOrders: s.workOrders.map((x) => (x.id === id ? { ...x, status: "completed", completedAt: new Date().toISOString() } : x)),
+        tickets: s.tickets.map((t) => (t.id === wo.ticketId ? { ...t, status: "completed" } : t)),
+      };
+    });
+  }, []);
+
+  const addStaff = useCallback<ProtoContextValue["addStaff"]>((data) => {
+    const staffMember: StaffMember = { ...data, id: `st-${Math.random().toString(36).slice(2, 9)}` };
+    setState((s) => ({ ...s, staffList: [...s.staffList, staffMember] }));
+    return staffMember;
+  }, []);
+
+  const removeStaff = useCallback((id: string) => {
+    setState((s) => ({ ...s, staffList: s.staffList.filter((x) => x.id !== id) }));
+  }, []);
+
+  const markMessageRead = useCallback((id: string) => {
+    setState((s) => ({ ...s, messages: s.messages.map((m) => (m.id === id ? { ...m, read: true } : m)) }));
+  }, []);
+
   const value = useMemo<ProtoContextValue>(() => {
     const activeRole = ROLES.find((r) => r.id === state.activeRoleId) ?? ROLES[0];
     const activeWorkspace = WORKSPACES.find((w) => w.id === activeRole.workspaceId) ?? WORKSPACES[0];
@@ -284,14 +363,27 @@ export function ProtoProvider({ children }: { children: ReactNode }) {
       createProperty,
       updateProperty,
       archiveProperty,
+      recordPayment,
+      createTicket,
+      setTicketStatus,
+      assignContractor,
+      addQuote,
+      acceptQuote,
+      markWorkOrderComplete,
+      addStaff,
+      removeStaff,
+      markMessageRead,
       activeRole,
       activeWorkspace,
       branches: SEED_BRANCHES,
-      staff: SEED_STAFF,
       contacts: SEED_CONTACTS,
       tenancies: SEED_TENANCIES,
+      documents: SEED_DOCUMENTS,
+      calendar: SEED_CALENDAR,
+      platformCustomers: SEED_PLATFORM_CUSTOMERS,
+      stripeEvents: SEED_STRIPE_EVENTS,
     };
-  }, [state, setActiveRole, upsertSubscription, cancelSubscription, reactivateSubscription, setSubscriptionStatus, createProperty, updateProperty, archiveProperty]);
+  }, [state, setActiveRole, upsertSubscription, cancelSubscription, reactivateSubscription, setSubscriptionStatus, createProperty, updateProperty, archiveProperty, recordPayment, createTicket, setTicketStatus, assignContractor, addQuote, acceptQuote, markWorkOrderComplete, addStaff, removeStaff, markMessageRead]);
 
   return <ProtoContext.Provider value={value}>{children}</ProtoContext.Provider>;
 }
